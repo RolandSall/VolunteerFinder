@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.volunteerfinder.Services.IUserService;
+import com.example.volunteerfinder.Services.UserService;
+import com.example.volunteerfinder.model.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout secondLayout;
     private ConstraintLayout parent;
 
+    private IUserService iUserService = new UserService();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +47,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initSetup();
         // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                regSetup();
+                if (regestierUser()) {
+                    System.out.println("Valid User");
+                    snackBarPop();
+                }
             }
         });
     }
 
-    private void regSetup() {
+    private boolean regestierUser() {
         if (validData()) {
-            System.out.println("Valid");
-            snackBarPop();
+            iUserService.save(buildUserRequestToSignIn());
+            return true;
         }
+        return false;
     }
 
     private void snackBarPop() {
@@ -68,8 +76,18 @@ public class MainActivity extends AppCompatActivity {
         passwordText.setText("Password");
 
 
-         /** TODO: Snack bar not showing **/
+        /** TODO: Snack bar not showing **/
         Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE);
+    }
+
+    private User buildUserRequestToSignIn() {
+        return new User().builder()
+                .firstName(firstNameField.getText().toString())
+                .lastName(lastNameField.getText().toString())
+                .address(addressField.getText().toString())
+                .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
+                .build();
     }
 
     private boolean validData() {
