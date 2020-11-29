@@ -39,7 +39,7 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/sansita_swashed_light"
         android:text="First Name"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/firstNameField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent" />
@@ -59,7 +59,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/firstNameField"
         android:layout_width="234dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -76,13 +76,13 @@
         android:layout_height="wrap_content"
         android:text="Last Name"
         android:fontFamily="@font/sansita_swashed_light"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName8"
+        app:layout_constraintBottom_toTopOf="@+id/lastNameField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.256"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName8"
+        android:id="@+id/lastNameField"
         android:layout_width="234dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -91,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/firstNameField" />
 
     <TextView
         android:id="@+id/textView10"
@@ -99,13 +99,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/sansita_swashed_light"
         android:text="Email"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintBottom_toTopOf="@+id/emailField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/emailField"
         android:layout_width="234dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -114,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
+        app:layout_constraintTop_toBottomOf="@+id/lastNameField" />
 
     <TextView
         android:id="@+id/textView11"
@@ -122,13 +122,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/sansita_swashed_light"
         android:text="Address"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPostalAddress"
+        app:layout_constraintBottom_toTopOf="@+id/addressField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.244"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPostalAddress"
+        android:id="@+id/addressField"
         android:layout_width="234dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -137,10 +137,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField" />
 
     <EditText
-        android:id="@+id/editTextTextPassword4"
+        android:id="@+id/passwordField"
         android:layout_width="234dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -149,7 +149,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/addressField" />
 
     <TextView
         android:id="@+id/textView12"
@@ -157,13 +157,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/sansita_swashed_light"
         android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword4"
+        app:layout_constraintBottom_toTopOf="@+id/passwordField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
         app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/registerBtn"
             android:layout_width="110dp"
             android:layout_height="43dp"
             android:layout_marginBottom="28dp"
@@ -174,7 +174,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/signInBtn"
             android:layout_width="110dp"
             android:layout_height="43dp"
             android:layout_marginBottom="28dp"
@@ -182,7 +182,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
-            app:layout_constraintStart_toEndOf="@+id/button2" />
+            app:layout_constraintStart_toEndOf="@+id/registerBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
