@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.Services;
+package com.example.volunteerfinder.Services.User;
 
 
 import com.example.volunteerfinder.model.User;
@@ -16,16 +16,27 @@ public class UserService implements IUserService {
     DatabaseReference reference = database.getReference("Users");
 
     @Override
-    public void save(User request) {
+    public UserServiceResponse save(User request) throws Exception {
         UUID uuid = UUID.randomUUID();
         String hashPassword = generateHash(request.getPassword());
         request.setPassword(hashPassword);
         reference.child(uuid.toString()).setValue(request);
-        System.out.println(request);
+        UserServiceResponse response = buildServiceResponseFromFireBaseResponse(uuid, request);
+        return response;
 
     }
 
-    public static String generateHash(String input) {
+    private UserServiceResponse buildServiceResponseFromFireBaseResponse(UUID uuid, User user) throws NoSuchFieldException {
+        return new UserServiceResponse().builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .userId(uuid.toString())
+                .address(user.getAddress())
+                .email(user.getEmail())
+                .build();
+    }
+
+    public static String generateHash(String input) throws Exception {
         StringBuilder hash = new StringBuilder();
 
         try {
@@ -39,7 +50,7 @@ public class UserService implements IUserService {
                 hash.append(digits[b & 0x0f]);
             }
         } catch (NoSuchAlgorithmException e) {
-            // handle error here.
+            throw new Exception("Failed To Save User");
         }
         return hash.toString();
     }

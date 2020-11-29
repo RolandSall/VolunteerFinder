@@ -5,16 +5,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.volunteerfinder.Services.IUserService;
-import com.example.volunteerfinder.Services.UserService;
+import com.example.volunteerfinder.Services.User.IUserService;
+import com.example.volunteerfinder.Services.User.UserService;
+import com.example.volunteerfinder.Services.User.UserServiceResponse;
 import com.example.volunteerfinder.model.User;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private IUserService iUserService = new UserService();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (regestierUser()) {
+                if (registerUser()) {
                     System.out.println("Valid User");
                     snackBarPop();
                 }
@@ -58,9 +57,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean regestierUser() {
+    private boolean registerUser() {
         if (validData()) {
-            iUserService.save(buildUserRequestToSignIn());
+            try {
+                UserServiceResponse response = iUserService.save(buildUserRequestToSignIn());
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         return false;
