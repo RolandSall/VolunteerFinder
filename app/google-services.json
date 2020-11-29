@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "734873969275",
+    "firebase_url": "https://volunteerfinder-8df78.firebaseio.com",
+    "project_id": "volunteerfinder-8df78",
+    "storage_bucket": "volunteerfinder-8df78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734873969275:android:3ea4b8c28d6f94136f78de",
+        "android_client_info": {
+          "package_name": "com.example.volunteerfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734873969275-eorvpocqqbj9qutd4qss6ursbrglj07p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUFJoVjD211sA6zlGPh97AxlN0s8biTuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734873969275-eorvpocqqbj9qutd4qss6ursbrglj07p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
