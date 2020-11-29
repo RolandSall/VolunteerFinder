@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout parent;
 
     private IUserService iUserService = new UserService();
+    private User LoggedInUser;
 
 
     @Override
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initSetup();
-        // Write a message to the database
+
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
         if (validData()) {
             try {
                 UserServiceResponse response = iUserService.save(buildUserRequestToSignIn());
+                LoggedInUser = getUserFromResponse(response);
+                return true;
             } catch (Exception e) {
                 Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            return true;
         }
         return false;
     }
@@ -80,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
         /** TODO: Snack bar not showing **/
         Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE);
+    }
+
+    private User getUserFromResponse(UserServiceResponse response) {
+        return new User().builder()
+                .userId(response.getUserId())
+                .firstName(firstNameField.getText().toString())
+                .lastName(lastNameField.getText().toString())
+                .address(addressField.getText().toString())
+                .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
+                .build();
     }
 
     private User buildUserRequestToSignIn() {

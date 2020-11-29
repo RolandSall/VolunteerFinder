@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class User {
-    private UUID userId;
+    private String userId;
     private String firstName;
     private String lastName;
     private String address;
