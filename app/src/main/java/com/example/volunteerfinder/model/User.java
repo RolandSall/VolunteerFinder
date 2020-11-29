@@ -1,6 +1,8 @@
 package com.example.volunteerfinder.model;
 
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +17,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class User {
-    private int userId;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String address;

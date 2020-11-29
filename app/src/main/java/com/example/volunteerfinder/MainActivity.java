@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private IUserService iUserService = new UserService();
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
