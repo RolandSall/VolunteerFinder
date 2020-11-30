@@ -1,23 +1,159 @@
 package com.example.volunteerfinder;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.example.volunteerfinder.Services.User.IUserService;
+import com.example.volunteerfinder.Services.User.UserService;
+import com.example.volunteerfinder.Services.User.UserServiceResponse;
+import com.example.volunteerfinder.model.User;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText firstNameField;
+    private EditText lastNameField;
+    private EditText emailField;
+    private EditText addressField;
+    private EditText passwordField;
+
+    private TextView firstNameText;
+    private TextView lastNameText;
+    private TextView emailText;
+    private TextView addressText;
+    private TextView passwordText;
+
+    private Button registerBtn;
+    private Button signInBtn;
+
+    private ConstraintLayout secondLayout;
+    private ConstraintLayout parent;
+
+    private IUserService iUserService = new UserService();
+    private User LoggedInUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
+        initSetup();
+
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (registerUser()) {
+                    System.out.println("Valid User");
+                    snackBarPop();
+                }
+            }
+        });
+    }
+
+    private boolean registerUser() {
+        if (validData()) {
+            try {
+                UserServiceResponse response = iUserService.save(buildUserRequestToSignIn());
+                LoggedInUser = getUserFromResponse(response);
+                return true;
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        return false;
+    }
+
+    private void snackBarPop() {
+        // Remove warnings
+        firstNameText.setText("First Name");
+        lastNameText.setText("Last Name");
+        addressText.setText("Address");
+        emailText.setText("Email");
+        passwordText.setText("Password");
+
+
+        /** TODO: Snack bar not showing **/
+        Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE).setAction(
+                "Dismiss", new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }
+        ).show();
+    }
+
+    private User getUserFromResponse(UserServiceResponse response) {
+        return new User().builder()
+                .userId(response.getUserId())
+                .firstName(firstNameField.getText().toString())
+                .lastName(lastNameField.getText().toString())
+                .address(addressField.getText().toString())
+                .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
+                .build();
+    }
+
+    private User buildUserRequestToSignIn() {
+        return new User().builder()
+                .firstName(firstNameField.getText().toString())
+                .lastName(lastNameField.getText().toString())
+                .address(addressField.getText().toString())
+                .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
+                .build();
+    }
+
+    private boolean validData() {
+        if (firstNameField.getText().toString().equals("")) {
+            firstNameText.setText("Enter Your First Name");
+            return false;
+        }
+        if (lastNameField.getText().toString().equals("")) {
+            lastNameText.setText("Enter Your Last Name");
+            return false;
+        }
+        if (emailField.getText().toString().equals("")) {
+            emailText.setText("Enter Your Email");
+            return false;
+        }
+        if (addressField.getText().toString().equals("")) {
+            addressText.setText("Enter Your Address");
+            return false;
+        }
+        if (passwordField.getText().toString().equals("")) {
+            passwordText.setText("Enter Your Password");
+            return false;
+        }
+        return true;
+    }
+
+    private void initSetup() {
+        firstNameField = findViewById(R.id.firstNameField);
+        lastNameField = findViewById(R.id.lastNameField);
+        emailField = findViewById(R.id.emailField);
+        addressField = findViewById(R.id.addressField);
+        passwordField = findViewById(R.id.passwordField);
+
+        firstNameText = findViewById(R.id.firstNameText);
+        lastNameText = findViewById(R.id.lastNameText);
+        emailText = findViewById(R.id.emailText);
+        addressText = findViewById(R.id.addressText);
+        passwordText = findViewById(R.id.passwordText);
+
+        registerBtn = findViewById(R.id.registerBtn);
+        signInBtn = findViewById(R.id.signInBtn);
+
+        secondLayout = findViewById(R.id.SecondLayout);
+        parent = findViewById(R.id.parent);
 
     }
 }
