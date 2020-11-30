@@ -1,6 +1,4 @@
-package com.example.volunteerfinder.Services.User;
-
-import java.util.UUID;
+package com.example.volunteerfinder.services.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

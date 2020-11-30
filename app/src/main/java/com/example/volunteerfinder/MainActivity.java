@@ -13,11 +13,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.volunteerfinder.Services.User.IUserService;
-import com.example.volunteerfinder.Services.User.UserService;
-import com.example.volunteerfinder.Services.User.UserServiceResponse;
+import com.example.volunteerfinder.services.events.EventService;
+import com.example.volunteerfinder.services.events.IEventService;
+import com.example.volunteerfinder.services.user.IUserService;
+import com.example.volunteerfinder.services.user.UserService;
+import com.example.volunteerfinder.services.user.UserServiceResponse;
 import com.example.volunteerfinder.model.User;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout parent;
 
     private IUserService iUserService = new UserService();
+    private IEventService iEventService = new EventService();
     private User LoggedInUser;
 
     SharedPreferences sp;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("Holla");
         initSetup();
         checkUser();
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iEventService.getEvents();
                 if (registerUser()) {
                     System.out.println("Valid User");
                     startActivity(new Intent(MainActivity.this, FeedActivity.class));
@@ -91,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         /** TODO: Snack bar not showing **/
-        Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE).setAction(
+/*        Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE).setAction(
                 "Dismiss", new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
 
                     }
                 }
-        ).show();
+        ).show();*/
     }
 
     private User getUserFromResponse(UserServiceResponse response) {
@@ -173,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         String userString = sp.getString("user", "");
         if(!userString.equals("")){
             startActivity(new Intent(MainActivity.this, FeedActivity.class));
-            finish();
+           /* finish();*/
         }
     }
 }

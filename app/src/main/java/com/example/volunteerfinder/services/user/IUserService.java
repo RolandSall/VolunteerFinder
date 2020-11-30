@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.Services.User;
+package com.example.volunteerfinder.services.user;
 
 import com.example.volunteerfinder.model.User;
 
