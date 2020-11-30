@@ -1,8 +1,7 @@
-package com.example.volunteerfinder.Services.User;
+package com.example.volunteerfinder.services.User;
 
 
-import com.example.volunteerfinder.model.User;
-import com.google.android.gms.tasks.Task;
+import com.example.volunteerfinder.models.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

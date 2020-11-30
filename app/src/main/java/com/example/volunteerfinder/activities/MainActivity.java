@@ -1,4 +1,4 @@
-package com.example.volunteerfinder;
+package com.example.volunteerfinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +13,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.volunteerfinder.Services.User.IUserService;
-import com.example.volunteerfinder.Services.User.UserService;
-import com.example.volunteerfinder.Services.User.UserServiceResponse;
-import com.example.volunteerfinder.model.User;
+import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.services.User.IUserService;
+import com.example.volunteerfinder.services.User.UserService;
+import com.example.volunteerfinder.services.User.UserServiceResponse;
+import com.example.volunteerfinder.models.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 

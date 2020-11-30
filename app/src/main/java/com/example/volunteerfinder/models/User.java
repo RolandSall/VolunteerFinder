@@ -1,8 +1,7 @@
-package com.example.volunteerfinder.model;
+package com.example.volunteerfinder.models;
 
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
