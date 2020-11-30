@@ -1,7 +1,6 @@
 package com.example.volunteerfinder.services.user;
 
-
-import com.example.volunteerfinder.model.User;
+import com.example.volunteerfinder.models.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

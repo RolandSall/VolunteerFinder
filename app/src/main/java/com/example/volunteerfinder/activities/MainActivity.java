@@ -1,4 +1,4 @@
-package com.example.volunteerfinder;
+package com.example.volunteerfinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.events.EventService;
 import com.example.volunteerfinder.services.events.IEventService;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserService;
 import com.example.volunteerfinder.services.user.UserServiceResponse;
-import com.example.volunteerfinder.model.User;
+import com.example.volunteerfinder.models.User;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {

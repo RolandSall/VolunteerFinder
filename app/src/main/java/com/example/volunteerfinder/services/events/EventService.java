@@ -2,7 +2,7 @@ package com.example.volunteerfinder.services.events;
 
 import androidx.annotation.NonNull;
 
-import com.example.volunteerfinder.model.Events;
+import com.example.volunteerfinder.models.Events;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

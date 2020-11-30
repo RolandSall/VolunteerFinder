@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.model;
+package com.example.volunteerfinder.models;
 
 import java.io.Serializable;
 import java.sql.Date;

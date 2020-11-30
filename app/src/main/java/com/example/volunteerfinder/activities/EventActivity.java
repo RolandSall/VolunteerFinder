@@ -1,8 +1,10 @@
-package com.example.volunteerfinder;
+package com.example.volunteerfinder.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.volunteerfinder.R;
 
 public class EventActivity extends AppCompatActivity {
 
