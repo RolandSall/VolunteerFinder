@@ -81,7 +81,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         /** TODO: Snack bar not showing **/
-        Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE);
+        Snackbar.make(parent, "You Are Registered!", Snackbar.LENGTH_INDEFINITE).setAction(
+                "Dismiss", new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }
+        ).show();
     }
 
     private User getUserFromResponse(UserServiceResponse response) {
