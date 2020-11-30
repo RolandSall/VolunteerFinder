@@ -60,12 +60,18 @@ public class MainActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iEventService.getEvents();
                 if (registerUser()) {
                     System.out.println("Valid User");
                     startActivity(new Intent(MainActivity.this, FeedActivity.class));
                     snackBarPop();
                 }
+            }
+        });
+
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iEventService.saveEvent(null);
             }
         });
     }

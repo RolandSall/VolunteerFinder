@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.adapters.EventAdapter;
 import com.example.volunteerfinder.models.User;
+import com.example.volunteerfinder.services.events.EventService;
+import com.example.volunteerfinder.services.events.IEventService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -21,6 +26,8 @@ public class FeedActivity extends AppCompatActivity {
 
     private RecyclerView eventRecyclerView;
 
+
+    private IEventService iEventService = new EventService();
     private SharedPreferences sp;
 
     @Override
@@ -28,6 +35,7 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         initSetup();
+
 
         User user = new Gson().fromJson(sp.getString("user", ""), User.class);
 
@@ -42,10 +50,14 @@ public class FeedActivity extends AppCompatActivity {
         list.add("Roland");
         list.add("Abdallah");
         list.add("Hadi");
+
+
+
     }
 
     private void initSetup() {
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        iEventService.getEvents();
     }
 }
