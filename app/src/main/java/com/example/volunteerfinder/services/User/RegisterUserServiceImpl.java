@@ -8,25 +8,25 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-public class UserService implements IUserService {
+public class RegisterUserServiceImpl implements IRegisterUserService {
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference("Users");
 
     @Override
-    public UserServiceResponse save(User request) throws Exception {
+    public RegisterUserResponse save(User request) throws Exception {
         UUID uuid = UUID.randomUUID();
         String hashPassword = generateHash(request.getPassword());
         request.setPassword(hashPassword);
         reference.child(uuid.toString()).setValue(request);
-        UserServiceResponse response = buildServiceResponseFromFireBaseResponse(uuid, request);
+        RegisterUserResponse response = buildServiceResponseFromFireBaseResponse(uuid, request);
         return response;
 
     }
 
-    private UserServiceResponse buildServiceResponseFromFireBaseResponse(UUID uuid, User user) throws NoSuchFieldException {
-        return new UserServiceResponse().builder()
+    private RegisterUserResponse buildServiceResponseFromFireBaseResponse(UUID uuid, User user) throws NoSuchFieldException {
+        return new RegisterUserResponse().builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .userId(uuid.toString())

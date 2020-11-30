@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class UserServiceResponse {
+public class RegisterUserResponse {
     private String userId;
     private String firstName;
     private String lastName;

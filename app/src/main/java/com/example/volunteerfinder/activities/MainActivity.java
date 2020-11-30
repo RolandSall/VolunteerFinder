@@ -16,9 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.events.EventService;
 import com.example.volunteerfinder.services.events.IEventService;
-import com.example.volunteerfinder.services.user.IUserService;
-import com.example.volunteerfinder.services.user.UserService;
-import com.example.volunteerfinder.services.user.UserServiceResponse;
+import com.example.volunteerfinder.services.user.IRegisterUserService;
+import com.example.volunteerfinder.services.user.RegisterUserServiceImpl;
+import com.example.volunteerfinder.services.user.RegisterUserResponse;
 import com.example.volunteerfinder.models.User;
 import com.google.gson.Gson;
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout secondLayout;
     private ConstraintLayout parent;
 
-    private IUserService iUserService = new UserService();
+    private IRegisterUserService iRegisterUserService = new RegisterUserServiceImpl();
     private IEventService iEventService = new EventService();
     private User LoggedInUser;
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean registerUser() {
         if (validData()) {
             try {
-                UserServiceResponse response = iUserService.save(buildUserRequestToSignIn());
+                RegisterUserResponse response = iRegisterUserService.save(buildUserRequestToSignIn());
                 LoggedInUser = getUserFromResponse(response);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("user", new Gson().toJson(LoggedInUser));
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         ).show();*/
     }
 
-    private User getUserFromResponse(UserServiceResponse response) {
+    private User getUserFromResponse(RegisterUserResponse response) {
         return new User().builder()
                 .userId(response.getUserId())
                 .firstName(firstNameField.getText().toString())
