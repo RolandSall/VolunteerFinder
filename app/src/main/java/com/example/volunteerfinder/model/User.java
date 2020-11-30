@@ -1,6 +1,7 @@
 package com.example.volunteerfinder.model;
 
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class User {
+public class User implements Serializable {
     private String userId;
     private String firstName;
     private String lastName;
