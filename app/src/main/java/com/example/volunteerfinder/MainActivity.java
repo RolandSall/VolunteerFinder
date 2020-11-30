@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sp;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initSetup();
+        checkUser();
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -167,5 +167,13 @@ public class MainActivity extends AppCompatActivity {
 
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
+    }
+
+    private void checkUser() {
+        String userString = sp.getString("user", "");
+        if(!userString.equals("")){
+            startActivity(new Intent(MainActivity.this, FeedActivity.class));
+            finish();
+        }
     }
 }
