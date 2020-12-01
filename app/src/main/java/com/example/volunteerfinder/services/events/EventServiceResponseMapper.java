@@ -1,10 +1,5 @@
 package com.example.volunteerfinder.services.events;
-
-import androidx.annotation.NonNull;
-
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,16 +7,15 @@ import java.util.HashMap;
 
 public class EventServiceResponseMapper {
 
-    private ArrayList<EventsServiceResponse> eventsArrayList;
-
-
-    public ArrayList<EventsServiceResponse> getEventList(DataSnapshot snapshot) {
+       public ArrayList<EventsServiceResponse> getEventList(DataSnapshot snapshot) {
         ArrayList<EventsServiceResponse> eventsArrayList = new ArrayList<>();
         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
             HashMap eventHashMap = (HashMap) dataSnapshot.getValue();
             EventsServiceResponse response = getBuild(eventHashMap);
             eventsArrayList.add(response);
         }
+
         return eventsArrayList;
     }
 

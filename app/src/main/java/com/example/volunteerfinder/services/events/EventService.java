@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -15,16 +16,30 @@ public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference = database.getReference().child("Events");
+    private ArrayList<EventsServiceResponse> eventsServiceResponses;
 
+    public EventService() {
+    }
+
+
+    public ArrayList<EventsServiceResponse> getEventsServiceResponses() {
+        return eventsServiceResponses;
+    }
+
+    public void setEventsServiceResponses(ArrayList<EventsServiceResponse> eventsServiceResponses) {
+        this.eventsServiceResponses = eventsServiceResponses;
+    }
 
     @Override
+
     public void getEvents() {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<EventsServiceResponse> eventsArrayList = new EventServiceResponseMapper().getEventList(snapshot);
-
+                eventsServiceResponses = new EventServiceResponseMapper().getEventList(snapshot);
+                setEventsServiceResponses(eventsServiceResponses);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
