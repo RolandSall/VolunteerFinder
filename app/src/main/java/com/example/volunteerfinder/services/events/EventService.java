@@ -68,6 +68,7 @@ public class EventService implements IEventService {
                 .capacity(10)
                 .description("Help Students")
                 .location("Hamra")
+                .title("Event Title")
                 .eventDate("12-25-2020")
                 .postedDate("11-30-2020")
                 .participants(participants)
