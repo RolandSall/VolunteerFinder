@@ -4,4 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.EventActivity"/>
+    tools:context=".activities.EventActivity">
+
+    <TextView
+        android:id="@+id/singleEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="100px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

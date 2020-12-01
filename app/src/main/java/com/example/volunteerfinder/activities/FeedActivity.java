@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,7 +27,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
 
     private RecyclerView eventRecyclerView;
 
@@ -115,12 +116,18 @@ public class FeedActivity extends AppCompatActivity {
         TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
-
-
         ftch = findViewById(R.id.fetchB);
         dummy = findViewById(R.id.addbutton);
 
         eventList = new ArrayList<>(eventService.getEvents());
-        eventAdapter = new EventAdapter(this, eventList);
+        eventAdapter = new EventAdapter(this, eventList, this);
+    }
+
+    @Override
+    public void onCardClick(int position) {
+        Event event = eventList.get(position);
+        Intent intent = new Intent(this, EventActivity.class);
+        intent.putExtra("event", event);
+        startActivity(intent);
     }
 }
