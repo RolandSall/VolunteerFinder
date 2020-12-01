@@ -40,6 +40,7 @@ public class EventActivity extends AppCompatActivity {
 
         googleMapsButton.setOnClickListener(e -> {
             Intent intent = new Intent(EventActivity.this, MapsActivity.class);
+            intent.putExtra("location", event.getLocation());
             startActivity(intent);
         });
 
