@@ -59,7 +59,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
     public void onBindViewHolder(@NonNull EventCardViewHolder myViewHolder, int i) {
         Event event = list.get(i);
         myViewHolder.eventName.setText(event.getTitle());
-        myViewHolder.eventOrganization.setText(event.getOrganization());
+        myViewHolder.eventOrganization.setText(event.getOrganization().getName());
         myViewHolder.eventDate.setText(event.getEventDate());
     }
 

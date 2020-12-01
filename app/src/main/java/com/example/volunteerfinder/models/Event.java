@@ -19,12 +19,12 @@ import lombok.ToString;
 @ToString
 public class Event implements Serializable {
     private String eventId;
-    private String organization;
     private String description;
     private String title;
     private String location;
     private String postedDate;
     private String eventDate;
     private int capacity;
+    private Organization organization;
     private ArrayList<String> participants;
 }

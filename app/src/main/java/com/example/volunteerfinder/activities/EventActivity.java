@@ -32,7 +32,7 @@ public class EventActivity extends AppCompatActivity {
 
         organizationWebPageButton.setOnClickListener(e -> {
             Intent intent = new Intent(EventActivity.this, OrganizationActivity.class);
-            intent.putExtra("organization", Organization.builder().name("LAU").webPage("https://www.lau.edu.lb/").build());
+            intent.putExtra("organization", event.getOrganization());
             startActivity(intent);
         });
 
