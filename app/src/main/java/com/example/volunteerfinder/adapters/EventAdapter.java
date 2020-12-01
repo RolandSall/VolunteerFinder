@@ -1,9 +1,12 @@
 package com.example.volunteerfinder.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
 import com.example.volunteerfinder.models.Event;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
         public TextView eventName;
         public TextView eventOrganization;
         public TextView eventDate;
+        public ImageView eventImage;
         OnCardListener onCardListener;
 
         public EventCardViewHolder(View view, OnCardListener onCardListener) {
@@ -32,6 +37,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
             eventName = view.findViewById(R.id.eventName);
             eventOrganization = view.findViewById(R.id.eventOrganization);
             eventDate = view.findViewById(R.id.eventDate);
+            eventImage = view.findViewById(R.id.eventImage);
             this.onCardListener = onCardListener;
 
             view.setOnClickListener(this);
@@ -61,6 +67,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
         myViewHolder.eventName.setText(event.getTitle());
         myViewHolder.eventOrganization.setText(event.getOrganization().getName());
         myViewHolder.eventDate.setText(event.getEventDate());
+        System.out.println("PICASSO");
+        Picasso.get().load(event.getImage()).into(myViewHolder.eventImage);
     }
 
     @Override
