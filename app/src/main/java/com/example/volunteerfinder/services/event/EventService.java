@@ -19,30 +19,9 @@ public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference = database.getReference().child("Events");
-    private List<Event> eventList;
-
-    public EventService() {
-        eventList = new ArrayList<>();
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                eventList = buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     @Override
-    public List<Event> getEvents() {
-        return eventList;
-    }
-
-    @Override
-    public void getEventsAsync(Consumer<List<Event>> callback) {
+    public void getEvents(Consumer<List<Event>> callback) {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -54,11 +33,6 @@ public class EventService implements IEventService {
 
             }
         });
-    }
-
-    @Override
-    public Event getSingleEvent(String id) {
-        return eventList.stream().filter(e-> e.getEventId().equals(id)).findFirst().get();
     }
 
     @Override

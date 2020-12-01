@@ -62,7 +62,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
             @Override
             public void onFinish() {
                 TempDialog.dismiss();
-                eventAdapter.update(new ArrayList<>(eventService.getEvents()));
+                eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
             }
         }.start();
 
@@ -79,8 +79,8 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         ftch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventAdapter.update(new ArrayList<>(eventService.getEvents()));
-                Toast.makeText(FeedActivity.this, "There is " + eventService.getEvents().size() + " Events", Toast.LENGTH_SHORT).show();
+                eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
+                Toast.makeText(FeedActivity.this, "There is " + eventList.size() + " Events", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,7 +98,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
                     @Override
                     public void onFinish() {
                         TempDialog.dismiss();
-                        eventAdapter.update(new ArrayList<>(eventService.getEvents()));
+                        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
                     }
                 }.start();
             }
@@ -119,8 +119,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         ftch = findViewById(R.id.fetchB);
         dummy = findViewById(R.id.addbutton);
 
-        eventList = new ArrayList<>(eventService.getEvents());
-        eventAdapter = new EventAdapter(this, eventList, this);
+        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
     }
 
     @Override

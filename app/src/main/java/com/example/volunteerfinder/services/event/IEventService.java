@@ -7,11 +7,7 @@ import java.util.function.Consumer;
 
 public interface IEventService {
 
-    List<Event> getEvents();
-
-    void getEventsAsync(Consumer<List<Event>> callback);
-
-    Event getSingleEvent(String id);
+    void getEvents(Consumer<List<Event>> callback);
 
     void saveEvent(Event event);
 
