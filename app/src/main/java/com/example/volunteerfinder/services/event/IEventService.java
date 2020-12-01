@@ -8,6 +8,8 @@ public interface IEventService {
 
     List<Event> getEvents();
 
+    Event getSingleEvent(String id);
+
     void saveEvent(Event event);
 
 }

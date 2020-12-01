@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.activities.FeedActivity;
 import com.example.volunteerfinder.models.Event;
 
 import java.util.ArrayList;
@@ -17,27 +19,40 @@ import java.util.ArrayList;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardViewHolder> {
     Context context;
     ArrayList<Event> list;
-    public class EventCardViewHolder extends RecyclerView.ViewHolder {
+    private OnCardListener onCardListener;
+    public class EventCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public CardView card;
         public TextView eventName;
         public TextView eventOrganization;
         public TextView eventDate;
-        public EventCardViewHolder(View view) {
+        OnCardListener onCardListener;
+
+        public EventCardViewHolder(View view, OnCardListener onCardListener) {
             super(view);
             eventName = view.findViewById(R.id.eventName);
             eventOrganization = view.findViewById(R.id.eventOrganization);
             eventDate = view.findViewById(R.id.eventDate);
+            this.onCardListener = onCardListener;
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onCardListener.onCardClick(getAdapterPosition());
         }
     }
-    public EventAdapter(Context context, ArrayList<Event> list) {
+    public EventAdapter(Context context, ArrayList<Event> list, OnCardListener onCardListener) {
         this.context = context;
         this.list = list;
+        this.onCardListener = onCardListener;
     }
 
     @NonNull
     @Override
     public EventCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_card, viewGroup, false);
-        return new EventCardViewHolder(itemView);
+        return new EventCardViewHolder(itemView, onCardListener);
     }
 
     @Override
@@ -57,5 +72,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
         list.clear();
         list.addAll(events);
         notifyDataSetChanged();
+    }
+
+    public interface OnCardListener{
+        void onCardClick(int position);
     }
 }

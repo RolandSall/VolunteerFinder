@@ -17,7 +17,6 @@ public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference = database.getReference().child("Events");
-    private ArrayList<EventsServiceResponse> eventsServiceResponses;
     private List<Event> eventList;
 
     public EventService() {
@@ -25,9 +24,7 @@ public class EventService implements IEventService {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println("Data Changed");
-                eventsServiceResponses = new EventServiceResponseMapper().getEventList(snapshot);
-                eventList = buildListOfEvents(eventsServiceResponses);
+                eventList = buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot));
             }
 
             @Override
@@ -40,6 +37,11 @@ public class EventService implements IEventService {
     @Override
     public List<Event> getEvents() {
         return eventList;
+    }
+
+    @Override
+    public Event getSingleEvent(String id) {
+        return eventList.stream().filter(e-> e.getEventId().equals(id)).findFirst().get();
     }
 
     @Override
