@@ -67,7 +67,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
         myViewHolder.eventName.setText(event.getTitle());
         myViewHolder.eventOrganization.setText(event.getOrganization().getName());
         myViewHolder.eventDate.setText(event.getEventDate());
-        System.out.println("PICASSO");
         Picasso.get().load(event.getImage()).into(myViewHolder.eventImage);
     }
 

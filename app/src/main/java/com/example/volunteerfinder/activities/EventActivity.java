@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.models.Event;
-import com.example.volunteerfinder.models.Organization;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -17,6 +16,7 @@ public class EventActivity extends AppCompatActivity {
     private TextView eventTitle;
     private Button organizationWebPageButton;
     private Button googleMapsButton;
+    private Button organizationProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +28,17 @@ public class EventActivity extends AppCompatActivity {
     private void initSetup(){
         event = (Event)getIntent().getSerializableExtra("event");
         eventTitle = findViewById(R.id.singleEventTitle);
+        eventTitle.setText(event.getTitle());
+
         organizationWebPageButton = findViewById(R.id.openWebPageButton);
+        googleMapsButton = findViewById(R.id.googleMapsButton);
+        organizationProfileButton = findViewById(R.id.organizationProfileButton);
 
         organizationWebPageButton.setOnClickListener(e -> {
-            Intent intent = new Intent(EventActivity.this, OrganizationActivity.class);
+            Intent intent = new Intent(EventActivity.this, OrganizationWebPageActivity.class);
             intent.putExtra("organization", event.getOrganization());
             startActivity(intent);
         });
-
-        googleMapsButton = findViewById(R.id.googleMapsButton);
 
         googleMapsButton.setOnClickListener(e -> {
             Intent intent = new Intent(EventActivity.this, MapsActivity.class);
@@ -44,6 +46,10 @@ public class EventActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        eventTitle.setText(event.getTitle());
+        organizationProfileButton.setOnClickListener(e -> {
+            Intent intent = new Intent(EventActivity.this, OrganizationProfileActivity.class);
+            intent.putExtra("organization", event.getOrganization());
+            startActivity(intent);
+        });
     }
 }

@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VolunteerFinder">
-        <activity android:name=".activities.OrganizationActivity"></activity>
+        <activity android:name=".activities.NewEventActivity"></activity>
+        <activity android:name=".activities.OrganizationProfileActivity" />
+        <activity android:name=".activities.OrganizationWebPageActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
