@@ -10,20 +10,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.models.Events;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardViewHolder> {
     Context context;
-    ArrayList<String> list;
+    ArrayList<Events> list;
     public class EventCardViewHolder extends RecyclerView.ViewHolder {
         public TextView eventName;
+        public TextView eventOrganization;
+        public TextView eventDate;
         public EventCardViewHolder(View view) {
             super(view);
             eventName = view.findViewById(R.id.eventName);
+            eventOrganization = view.findViewById(R.id.eventOrganization);
+            eventDate = view.findViewById(R.id.eventDate);
         }
     }
-    public EventAdapter(Context context, ArrayList<String> list) {
+    public EventAdapter(Context context, ArrayList<Events> list) {
         this.context = context;
         this.list = list;
     }
@@ -37,7 +43,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
 
     @Override
     public void onBindViewHolder(@NonNull EventCardViewHolder myViewHolder, int i) {
-        myViewHolder.eventName.setText(list.get(i));
+        Events event = list.get(i);
+        myViewHolder.eventName.setText(event.getDescription());
+        myViewHolder.eventOrganization.setText(event.getOrganization());
+        myViewHolder.eventDate.setText(event.getEventDate());
     }
 
     @Override

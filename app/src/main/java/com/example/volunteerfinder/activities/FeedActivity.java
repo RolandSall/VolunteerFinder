@@ -40,7 +40,7 @@ public class FeedActivity extends AppCompatActivity {
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
-    private List<Events> eventsList;
+    private List<Events> eventsList = new ArrayList<>();
 
     private ProgressDialog TempDialog;
     private CountDownTimer countDownTimer;
@@ -51,9 +51,6 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         initSetup();
-
-
-
 
         TempDialog.show();
         countDownTimer = new CountDownTimer(2000,1000) {
@@ -69,23 +66,14 @@ public class FeedActivity extends AppCompatActivity {
             }
         }.start();
 
-
-
-
-
         User user = new Gson().fromJson(sp.getString("user", ""), User.class);
-
-        ArrayList<String> list = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         eventRecyclerView.setLayoutManager(layoutManager);
         eventRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        eventRecyclerView.setAdapter(new EventAdapter(this, list));
+        eventRecyclerView.setAdapter(new EventAdapter(this, new ArrayList<>(eventsList)));
         eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        list.add("Roland");
-        list.add("Abdallah");
-        list.add("Hadi");
 
 
         ftch.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +90,6 @@ public class FeedActivity extends AppCompatActivity {
                 eventService.saveEvent(null);
                 eventService.getEvents();
                 eventsList = buildListOfEvents(eventService.getEventsServiceResponses());
-
-
-
             }
         });
 
