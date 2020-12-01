@@ -1,7 +1,5 @@
-package com.example.volunteerfinder.models;
+package com.example.volunteerfinder.services.events;
 
-import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +15,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class Events implements Serializable {
+public class EventsServiceResponse {
     private String eventId;
     private String organization;
     private String description;

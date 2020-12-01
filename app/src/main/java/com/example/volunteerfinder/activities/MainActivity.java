@@ -1,9 +1,13 @@
 package com.example.volunteerfinder.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,12 +19,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.events.EventService;
+import com.example.volunteerfinder.services.events.EventsServiceResponse;
 import com.example.volunteerfinder.services.events.IEventService;
 import com.example.volunteerfinder.services.user.IRegisterUserService;
 import com.example.volunteerfinder.services.user.RegisterUserServiceImpl;
 import com.example.volunteerfinder.services.user.RegisterUserResponse;
 import com.example.volunteerfinder.models.User;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout parent;
 
     private IRegisterUserService iRegisterUserService = new RegisterUserServiceImpl();
-    private IEventService iEventService = new EventService();
+    private EventService eventService = new EventService();
     private User LoggedInUser;
 
     SharedPreferences sp;
@@ -52,20 +59,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("Holla");
         initSetup();
         checkUser();
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iEventService.getEvents();
                 if (registerUser()) {
-                    System.out.println("Valid User");
                     startActivity(new Intent(MainActivity.this, FeedActivity.class));
                     snackBarPop();
                 }
+            }
+        });
+
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -176,9 +186,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkUser() {
         String userString = sp.getString("user", "");
-        if(!userString.equals("")){
+        if (!userString.equals("")) {
             startActivity(new Intent(MainActivity.this, FeedActivity.class));
-           /* finish();*/
+            finish();
         }
     }
 }
