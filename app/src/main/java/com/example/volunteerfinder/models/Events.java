@@ -21,6 +21,7 @@ public class Events implements Serializable {
     private String eventId;
     private String organization;
     private String description;
+    private String title;
     private String location;
     private String postedDate;
     private String eventDate;

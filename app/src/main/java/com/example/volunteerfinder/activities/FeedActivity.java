@@ -136,6 +136,7 @@ public class FeedActivity extends AppCompatActivity {
                 .eventDate(eventsServiceResponse.getEventDate())
                 .capacity(eventsServiceResponse.getCapacity())
                 .description(eventsServiceResponse.getDescription())
+                .title(eventsServiceResponse.getTitle())
                 .organization(eventsServiceResponse.getOrganization())
                 .build();
     }

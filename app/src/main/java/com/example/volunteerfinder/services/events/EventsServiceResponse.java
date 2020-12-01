@@ -18,6 +18,7 @@ import lombok.ToString;
 public class EventsServiceResponse {
     private String eventId;
     private String organization;
+    private String title;
     private String description;
     private String location;
     private String postedDate;

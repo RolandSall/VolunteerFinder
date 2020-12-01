@@ -24,7 +24,7 @@ public class EventServiceResponseMapper {
                 .eventId(eventHashMap.get("eventId").toString())
                 .description(eventHashMap.get("description").toString())
                 .eventDate(eventHashMap.get("eventDate").toString())
-                .eventDate(eventHashMap.get("eventDate").toString())
+                .title(eventHashMap.get("title").toString())
                 .location(eventHashMap.get("location").toString())
                 .postedDate(eventHashMap.get("postedDate").toString())
                 .organization(eventHashMap.get("organization").toString())
