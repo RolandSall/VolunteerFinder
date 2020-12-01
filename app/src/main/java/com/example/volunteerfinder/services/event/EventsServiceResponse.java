@@ -25,6 +25,7 @@ public class EventsServiceResponse {
     private String location;
     private String postedDate;
     private String eventDate;
+    private String image;
     private int capacity;
     private ArrayList<String> participants;
 }

@@ -69,6 +69,7 @@ public class EventService implements IEventService {
                 .description("Help Students")
                 .location("Hamra")
                 .title("Event Title")
+                .image("https://firebasestorage.googleapis.com/v0/b/volunteerfinder-8df78.appspot.com/o/Events%2F6ccdec15-2343-4666-af38-8fd664e39171%2Fmlops-1.png?alt=media&token=ab1513f4-e874-4b01-92d3-4e71b361e86e")
                 .eventDate("12-25-2020")
                 .postedDate("11-30-2020")
                 .participants(participants)
@@ -96,6 +97,7 @@ public class EventService implements IEventService {
                 .description(eventsServiceResponse.getDescription())
                 .title(eventsServiceResponse.getTitle())
                 .organization(eventsServiceResponse.getOrganization())
+                .image(eventsServiceResponse.getImage())
                 .build();
     }
 }
