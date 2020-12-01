@@ -3,6 +3,7 @@ package com.example.volunteerfinder.services.event;
 import androidx.annotation.NonNull;
 
 import com.example.volunteerfinder.models.Event;
+import com.example.volunteerfinder.models.Organization;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,8 +60,12 @@ public class EventService implements IEventService {
         participants.add("3");
         return Event.builder()
                 .eventId(uuid.toString())
-                .organization("LAU")
                 .capacity(10)
+                .organization(new Organization().builder()
+                        .organizationId(UUID.randomUUID().toString())
+                        .webPage("https://www.lau.edu.lb/")
+                        .name("Dummy Organization")
+                        .build())
                 .description("Help Students")
                 .location("Hamra")
                 .title("Event Title")

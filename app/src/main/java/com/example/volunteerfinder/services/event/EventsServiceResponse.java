@@ -1,5 +1,7 @@
 package com.example.volunteerfinder.services.event;
 
+import com.example.volunteerfinder.models.Organization;
+
 import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class EventsServiceResponse {
     private String eventId;
-    private String organization;
+    private Organization organization;
     private String title;
     private String description;
     private String location;
