@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,15 +19,12 @@ import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.adapters.EventAdapter;
-import com.example.volunteerfinder.models.Events;
+import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.User;
-import com.example.volunteerfinder.services.events.EventService;
-import com.example.volunteerfinder.services.events.EventsServiceResponse;
-import com.example.volunteerfinder.services.events.IEventService;
+import com.example.volunteerfinder.services.event.EventService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -40,14 +36,17 @@ public class FeedActivity extends AppCompatActivity {
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
-    private List<Events> eventsList = new ArrayList<>();
+    private ArrayList<Event> eventList;
+    private EventAdapter eventAdapter;
 
     private ProgressDialog TempDialog;
     private CountDownTimer countDownTimer;
     private int counter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         initSetup();
@@ -62,7 +61,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 TempDialog.dismiss();
-                eventsList = buildListOfEvents(eventService.getEventsServiceResponses());
+                eventAdapter.update(new ArrayList<>(eventService.getEvents()));
             }
         }.start();
 
@@ -71,7 +70,7 @@ public class FeedActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         eventRecyclerView.setLayoutManager(layoutManager);
         eventRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        eventRecyclerView.setAdapter(new EventAdapter(this, new ArrayList<>(eventsList)));
+        eventRecyclerView.setAdapter(eventAdapter);
         eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
 
@@ -79,7 +78,7 @@ public class FeedActivity extends AppCompatActivity {
         ftch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(eventsList.size());
+                eventAdapter.update(new ArrayList<>(eventService.getEvents()));
                 Toast.makeText(FeedActivity.this, "There is " + eventService.getEventsServiceResponses().size() + " Events", Toast.LENGTH_SHORT).show();
             }
         });
@@ -88,12 +87,21 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 eventService.saveEvent(null);
-                eventService.getEvents();
-                eventsList = buildListOfEvents(eventService.getEventsServiceResponses());
+                TempDialog.show();
+                countDownTimer = new CountDownTimer(2000,1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        TempDialog.setMessage("Wait a Moment....");
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        TempDialog.dismiss();
+                        eventAdapter.update(new ArrayList<>(eventService.getEvents()));
+                    }
+                }.start();
             }
         });
-
-
     }
 
     private void initSetup() {
@@ -109,35 +117,10 @@ public class FeedActivity extends AppCompatActivity {
 
 
 
-        eventService.getEvents();
-
         ftch = findViewById(R.id.fetchB);
         dummy = findViewById(R.id.addbutton);
 
-
-    }
-
-    private List<Events> buildListOfEvents(List<EventsServiceResponse> eventsServiceResponses) {
-        while (eventsServiceResponses.equals(null)){
-            System.out.println("No Data To Be Shown");
-        }
-        List<Events> responseList = new ArrayList<>();
-        for (EventsServiceResponse eventsServiceResponse : eventsServiceResponses) {
-            responseList.add(getSingleEvent(eventsServiceResponse));
-        }
-        return responseList;
-    }
-
-    private Events getSingleEvent(EventsServiceResponse eventsServiceResponse) {
-        return new Events().builder()
-                .eventId(eventsServiceResponse.getEventId())
-                .location(eventsServiceResponse.getLocation())
-                .postedDate(eventsServiceResponse.getPostedDate())
-                .eventDate(eventsServiceResponse.getEventDate())
-                .capacity(eventsServiceResponse.getCapacity())
-                .description(eventsServiceResponse.getDescription())
-                .title(eventsServiceResponse.getTitle())
-                .organization(eventsServiceResponse.getOrganization())
-                .build();
+        eventList = new ArrayList<>(eventService.getEvents());
+        eventAdapter = new EventAdapter(this, eventList);
     }
 }

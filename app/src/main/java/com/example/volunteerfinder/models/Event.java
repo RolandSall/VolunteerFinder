@@ -17,7 +17,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class Events implements Serializable {
+public class Event implements Serializable {
     private String eventId;
     private String organization;
     private String description;

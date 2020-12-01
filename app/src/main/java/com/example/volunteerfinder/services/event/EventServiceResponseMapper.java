@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.services.events;
+package com.example.volunteerfinder.services.event;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
