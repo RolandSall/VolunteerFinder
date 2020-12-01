@@ -37,20 +37,10 @@ public class EventService implements IEventService {
         });
     }
 
-
-    public ArrayList<EventsServiceResponse> getEventsServiceResponses() {
-        return eventsServiceResponses;
-    }
-
-    public void setEventsServiceResponses(ArrayList<EventsServiceResponse> eventsServiceResponses) {
-        this.eventsServiceResponses = eventsServiceResponses;
-    }
-
     @Override
     public List<Event> getEvents() {
         return eventList;
     }
-
 
     @Override
     public void saveEvent(Event event) {

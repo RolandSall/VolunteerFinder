@@ -79,7 +79,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 eventAdapter.update(new ArrayList<>(eventService.getEvents()));
-                Toast.makeText(FeedActivity.this, "There is " + eventService.getEventsServiceResponses().size() + " Events", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedActivity.this, "There is " + eventService.getEvents().size() + " Events", Toast.LENGTH_SHORT).show();
             }
         });
 
