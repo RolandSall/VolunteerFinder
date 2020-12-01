@@ -2,16 +2,20 @@ package com.example.volunteerfinder.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.models.Event;
+import com.example.volunteerfinder.models.Organization;
 
 public class EventActivity extends AppCompatActivity {
 
     private Event event;
     private TextView eventTitle;
+    private Button organizationWebPageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,13 @@ public class EventActivity extends AppCompatActivity {
     private void initSetup(){
         event = (Event)getIntent().getSerializableExtra("event");
         eventTitle = findViewById(R.id.singleEventTitle);
+        organizationWebPageButton = findViewById(R.id.openWebPageButton);
+
+        organizationWebPageButton.setOnClickListener(e -> {
+            Intent intent = new Intent(EventActivity.this, OrganizationActivity.class);
+            intent.putExtra("organization", Organization.builder().name("LAU").webPage("https://www.lau.edu.lb/").build());
+            startActivity(intent);
+        });
 
         eventTitle.setText(event.getTitle());
     }
