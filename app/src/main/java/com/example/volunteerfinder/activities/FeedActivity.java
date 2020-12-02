@@ -26,6 +26,7 @@ import com.example.volunteerfinder.services.event.EventService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
 
@@ -53,7 +54,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         initSetup();
 
         TempDialog.show();
-        countDownTimer = new CountDownTimer(2000,1000) {
+        countDownTimer = new CountDownTimer(1500,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 TempDialog.setMessage("Wait a Moment....");
@@ -108,6 +109,9 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
     private void initSetup() {
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+
+        eventList = new ArrayList<>();
+        eventAdapter = new EventAdapter(this, eventList, this);
 
         TempDialog = new ProgressDialog(FeedActivity.this);
         TempDialog.setMessage("Wait a Moment....");
