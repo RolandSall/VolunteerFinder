@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VolunteerFinder">
-        <activity android:name=".activities.NewEventActivity"></activity>
+        <activity android:name=".activities.NewEventActivity" />
         <activity android:name=".activities.OrganizationProfileActivity" />
         <activity android:name=".activities.OrganizationWebPageActivity" />
         <!--
@@ -35,8 +35,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".activities.EventActivity" />
         <activity android:name=".activities.FeedActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
