@@ -18,11 +18,11 @@ import java.util.function.Consumer;
 public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference = database.getReference().child("Events");
+    private DatabaseReference dbReference = database.getReference().child("Events");
 
     @Override
     public void getEvents(Consumer<List<Event>> callback) {
-        reference.addValueEventListener(new ValueEventListener() {
+        dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
@@ -35,56 +35,24 @@ public class EventService implements IEventService {
         });
     }
 
+
     @Override
     public void saveEvent(Event event) {
         UUID uuid = UUID.randomUUID();
-        // Creating a dummy Event
-        Event dummyEvent = createDummyEvent(uuid);
-        reference.child(uuid.toString()).setValue(dummyEvent);
+        // create Id
+        event.setEventId(uuid.toString());
+        // initially no participants
+        event.setParticipants(new ArrayList<>());
+        // Save event
+        dbReference.child(uuid.toString()).setValue(event);
     }
 
-    private Event createDummyEvent(UUID uuid) {
-        ArrayList participants = new ArrayList();
-        participants.add("1");
-        participants.add("2");
-        participants.add("3");
-        return Event.builder()
-                .eventId(uuid.toString())
-                .capacity(10)
-                .organization(new Organization().builder()
-                        .organizationId(UUID.randomUUID().toString())
-                        .webPage("https://www.lau.edu.lb/")
-                        .name("Dummy Organization")
-                        .build())
-                .description("Help Students")
-                .location("Hamra")
-                .title("Event Title")
-                .image("https://firebasestorage.googleapis.com/v0/b/volunteerfinder-8df78.appspot.com/o/Events%2F6ccdec15-2343-4666-af38-8fd664e39171%2Fmlops-1.png?alt=media&token=ab1513f4-e874-4b01-92d3-4e71b361e86e")
-                .eventDate("12-25-2020")
-                .postedDate("11-30-2020")
-                .participants(participants)
-                .build();
+
+    @Override
+    public void deleteEvent(String eventId) {
+        dbReference.child(eventId).removeValue();
     }
 
-    public Event createDummyEvent(Organization organization) {
-        UUID uuid = UUID.randomUUID();
-        ArrayList participants = new ArrayList();
-        participants.add("1");
-        participants.add("2");
-        participants.add("3");
-        return Event.builder()
-                .eventId(uuid.toString())
-                .capacity(10)
-                .organization(organization)
-                .description("Help Students")
-                .location("Hamra")
-                .title("Event Title")
-                .image("https://firebasestorage.googleapis.com/v0/b/volunteerfinder-8df78.appspot.com/o/Events%2F6ccdec15-2343-4666-af38-8fd664e39171%2Fmlops-1.png?alt=media&token=ab1513f4-e874-4b01-92d3-4e71b361e86e")
-                .eventDate("12-25-2020")
-                .postedDate("11-30-2020")
-                .participants(participants)
-                .build();
-    }
 
     private List<Event> buildListOfEvents(List<EventsServiceResponse> eventsServiceResponses) {
         while (eventsServiceResponses.equals(null)){

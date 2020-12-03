@@ -15,8 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.event.EventService;
-import com.example.volunteerfinder.services.user.IRegisterUserService;
-import com.example.volunteerfinder.services.user.RegisterUserServiceImpl;
+import com.example.volunteerfinder.services.user.IUserService;
+import com.example.volunteerfinder.services.user.UserService;
 import com.example.volunteerfinder.services.user.RegisterUserResponse;
 import com.example.volunteerfinder.models.User;
 import com.google.gson.Gson;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout secondLayout;
     private ConstraintLayout parent;
 
-    private IRegisterUserService iRegisterUserService = new RegisterUserServiceImpl();
+    private IUserService iUserService = new UserService();
     private EventService eventService = new EventService();
     private User LoggedInUser;
 
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean registerUser() {
         if (validData()) {
             try {
-                RegisterUserResponse response = iRegisterUserService.save(buildUserRequestToSignIn());
+                RegisterUserResponse response = iUserService.save(buildUserRequestToSignIn());
                 LoggedInUser = getUserFromResponse(response);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("user", new Gson().toJson(LoggedInUser));

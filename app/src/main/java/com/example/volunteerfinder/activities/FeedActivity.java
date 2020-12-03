@@ -1,11 +1,5 @@
 package com.example.volunteerfinder.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.adapters.EventAdapter;
 import com.example.volunteerfinder.models.Event;
@@ -26,13 +26,11 @@ import com.example.volunteerfinder.services.event.EventService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
 
     private RecyclerView eventRecyclerView;
-
-    private Button ftch;
-    private Button dummy;
 
     private EventService eventService = new EventService();
     private SharedPreferences sp;
@@ -53,7 +51,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         initSetup();
 
         TempDialog.show();
-        countDownTimer = new CountDownTimer(2000,1000) {
+        countDownTimer = new CountDownTimer(1500,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 TempDialog.setMessage("Wait a Moment....");
@@ -74,40 +72,14 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         eventRecyclerView.setAdapter(eventAdapter);
         eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-
-
-        ftch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
-                Toast.makeText(FeedActivity.this, "There is " + eventList.size() + " Events", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dummy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventService.saveEvent(null);
-                TempDialog.show();
-                countDownTimer = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        TempDialog.setMessage("Wait a Moment....");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        TempDialog.dismiss();
-                        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
-                    }
-                }.start();
-            }
-        });
     }
 
     private void initSetup() {
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+
+        eventList = new ArrayList<>();
+        eventAdapter = new EventAdapter(this, eventList, this);
 
         TempDialog = new ProgressDialog(FeedActivity.this);
         TempDialog.setMessage("Wait a Moment....");
@@ -116,8 +88,6 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
-        ftch = findViewById(R.id.fetchB);
-        dummy = findViewById(R.id.addbutton);
 
         eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
     }
