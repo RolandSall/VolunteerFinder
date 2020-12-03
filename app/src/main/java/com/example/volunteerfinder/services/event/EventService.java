@@ -28,7 +28,6 @@ public class EventService implements IEventService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
-                System.out.println("ddd");
             }
 
             @Override
@@ -94,6 +93,8 @@ public class EventService implements IEventService {
                 .participants(participants)
                 .build();
     }
+
+
 
     private List<Event> buildListOfEvents(List<EventsServiceResponse> eventsServiceResponses) {
         while (eventsServiceResponses.equals(null)){

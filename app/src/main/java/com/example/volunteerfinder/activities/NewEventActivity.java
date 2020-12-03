@@ -42,4 +42,7 @@ public class NewEventActivity extends AppCompatActivity {
             finish();
         });
     }
+
+
+
 }
