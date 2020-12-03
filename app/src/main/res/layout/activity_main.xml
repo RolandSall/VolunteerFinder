@@ -181,6 +181,17 @@
             app:layout_constraintHorizontal_bias="0.085"
             app:layout_constraintStart_toEndOf="@+id/registerBtn" />
 
+        <Button
+            android:id="@+id/loginActivityBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="150dp"
+            tools:layout_editor_absoluteY="504dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.085"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
