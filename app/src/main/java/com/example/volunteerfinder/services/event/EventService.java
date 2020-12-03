@@ -18,11 +18,11 @@ import java.util.function.Consumer;
 public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference = database.getReference().child("Events");
+    private DatabaseReference dbReference = database.getReference().child("Events");
 
     @Override
     public void getEvents(Consumer<List<Event>> callback) {
-        reference.addValueEventListener(new ValueEventListener() {
+        dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
@@ -35,12 +35,26 @@ public class EventService implements IEventService {
         });
     }
 
+
     @Override
     public void saveEvent(Event event) {
         UUID uuid = UUID.randomUUID();
-        // Creating a dummy Event
-        Event dummyEvent = createDummyEvent(uuid);
-        reference.child(uuid.toString()).setValue(dummyEvent);
+        // create Id
+        event.setEventId(uuid.toString());
+        // initially no participants
+        event.setParticipants(new ArrayList<>());
+        // Save event
+        dbReference.child(uuid.toString()).setValue(event);
+    }
+
+    public void saveDummyEventWithoutImage(Event event){
+        UUID uuid = UUID.randomUUID();
+        dbReference.child(uuid.toString()).setValue(createDummyEvent(uuid));
+    }
+
+    @Override
+    public void deleteEvent(String eventId) {
+        dbReference.child(eventId).removeValue();
     }
 
     private Event createDummyEvent(UUID uuid) {
@@ -85,6 +99,8 @@ public class EventService implements IEventService {
                 .participants(participants)
                 .build();
     }
+
+
 
     private List<Event> buildListOfEvents(List<EventsServiceResponse> eventsServiceResponses) {
         while (eventsServiceResponses.equals(null)){

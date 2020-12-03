@@ -12,14 +12,14 @@ public class RegisterUserServiceImpl implements IRegisterUserService {
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference("Users");
+    DatabaseReference dbReference = database.getReference("Users");
 
     @Override
     public RegisterUserResponse save(User request) throws Exception {
         UUID uuid = UUID.randomUUID();
         String hashPassword = generateHash(request.getPassword());
         request.setPassword(hashPassword);
-        reference.child(uuid.toString()).setValue(request);
+        dbReference.child(uuid.toString()).setValue(request);
         RegisterUserResponse response = buildServiceResponseFromFireBaseResponse(uuid, request);
         return response;
 
