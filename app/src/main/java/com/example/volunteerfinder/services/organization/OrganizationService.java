@@ -25,6 +25,7 @@ public class OrganizationService implements  IOrganizationService {
         return response;
     }
 
+
     private RegisterOrganizationResponse buildServiceResponseFromFireBaseResponse(UUID uuid, Organization organization) {
         return new RegisterOrganizationResponse().builder()
                 .address(organization.getAddress())

@@ -1,13 +1,24 @@
 package com.example.volunteerfinder.services.user;
 
+import androidx.annotation.NonNull;
+
+import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.User;
+import com.example.volunteerfinder.services.event.EventServiceResponseMapper;
+import com.example.volunteerfinder.services.event.EventsServiceResponse;
 import com.example.volunteerfinder.services.helper.HashingService;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class UserService implements IUserService {
 
@@ -26,6 +37,7 @@ public class UserService implements IUserService {
         return response;
 
     }
+
 
     private RegisterUserResponse buildServiceResponseFromFireBaseResponse(UUID uuid, User user) throws NoSuchFieldException {
         return new RegisterUserResponse().builder()
