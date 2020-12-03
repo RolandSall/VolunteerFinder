@@ -11,4 +11,6 @@ public interface IEventService {
 
     void saveEvent(Event event);
 
+    void   deleteEvent(String eventId);
+
 }

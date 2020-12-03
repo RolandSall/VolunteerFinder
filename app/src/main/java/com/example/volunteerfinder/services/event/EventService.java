@@ -35,12 +35,19 @@ public class EventService implements IEventService {
         });
     }
 
+
+
     @Override
     public void saveEvent(Event event) {
         UUID uuid = UUID.randomUUID();
         // Creating a dummy Event
         Event dummyEvent = createDummyEvent(uuid);
         reference.child(uuid.toString()).setValue(dummyEvent);
+    }
+
+    @Override
+    public void deleteEvent(String eventId) {
+        reference.child(eventId).removeValue();
     }
 
     private Event createDummyEvent(UUID uuid) {
