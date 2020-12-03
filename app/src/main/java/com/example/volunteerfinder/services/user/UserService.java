@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-public class RegisterUserServiceImpl implements IRegisterUserService {
+public class UserService implements IUserService {
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
