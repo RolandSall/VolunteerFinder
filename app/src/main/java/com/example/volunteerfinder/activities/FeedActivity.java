@@ -32,10 +32,6 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
 
     private RecyclerView eventRecyclerView;
 
-    private Button ftch;
-    private Button dummy;
-    private Button fetchByOrgId;
-
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
@@ -76,47 +72,6 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         eventRecyclerView.setAdapter(eventAdapter);
         eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-
-
-        ftch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
-                Toast.makeText(FeedActivity.this, "There is " + eventList.size() + " Events", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        fetchByOrgId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Pressed with dummy Id");
-                eventService.getEvents(list -> {
-                    eventAdapter.update(new ArrayList<>(list.stream().filter(event -> event.getOrganization().getOrganizationId().equals("1")).collect(Collectors.toList())));
-                });
-            }
-        });
-
-
-
-        dummy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventService.saveDummyEventWithoutImage(null);
-                TempDialog.show();
-                countDownTimer = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        TempDialog.setMessage("Wait a Moment....");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        TempDialog.dismiss();
-                        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
-                    }
-                }.start();
-            }
-        });
     }
 
     private void initSetup() {
@@ -132,10 +87,6 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         TempDialog.setProgress(counter);
         TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
-
-        ftch = findViewById(R.id.fetchB);
-        dummy = findViewById(R.id.addbutton);
-        fetchByOrgId = findViewById(R.id.fetchByOrgId);
 
 
         eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));

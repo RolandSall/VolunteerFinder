@@ -47,10 +47,6 @@ public class EventService implements IEventService {
         dbReference.child(uuid.toString()).setValue(event);
     }
 
-    public void saveDummyEventWithoutImage(Event event){
-        UUID uuid = UUID.randomUUID();
-        dbReference.child(uuid.toString()).setValue(createDummyEvent(uuid));
-    }
 
     @Override
     public void deleteEvent(String eventId) {
