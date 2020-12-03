@@ -4,7 +4,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="loginTab">Login</string>
     <string name="signupTab">Sign Up</string>
-    <string name="userName">Username/email</string>
+    <string name="userName">Email</string>
     <string name="password">Password</string>
     <string name="loginIcon">loginIcon</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -12,4 +12,5 @@
     <string name="loginI">&amp;#xf2f6</string>
     <string name="FirstName">Firstname</string>
     <string name="LastName">Lastname</string>
+    <string name="Address">Address</string>
 </resources>
