@@ -42,12 +42,13 @@ import java.util.stream.Collectors;
 
 public class NewEventActivity extends AppCompatActivity {
 
-    private SharedPreferences sp;
+
     private Organization organization;
 
     private static final int CHOOSE_IMAGE_REQUEST = 1;
     private Button uploadBtn;
     private Button chooseFileBtn;
+    private Button save;
     private ProgressBar progressBar;
     private ImageView imageView;
 
@@ -72,27 +73,43 @@ public class NewEventActivity extends AppCompatActivity {
             if (IsInvalidDownload()) {
                 Toast.makeText(NewEventActivity.this, "Image Is Already Being Downloaded", Toast.LENGTH_LONG).show();
             } else {
-                uploadFile(uri -> event.setImage(uri) );
+                uploadFile(uri -> event.setImage(uri));
             }
         });
 
         chooseFileBtn.setOnClickListener(v -> openGallery());
+
+        save.setOnClickListener(v -> {
+            eventService.saveEvent(event);
+        });
     }
 
+
     private void initSetup() {
-        sp = getSharedPreferences("OrganizationInfo", Context.MODE_PRIVATE);
+
+
+        organization = (Organization) getIntent().getSerializableExtra("organization");
 
         uploadBtn = findViewById(R.id.uploadBtn);
         chooseFileBtn = findViewById(R.id.chooseFileBtn);
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.imageView);
+        save = findViewById(R.id.saveEventBtn);
 
-        event = new Event();
+        event = Event.builder()
+                .capacity(10)
+                .organization(organization)
+                .description("Latest Version of Dummy Events")
+                .location("Amchit")
+                .title("Together-Stronger")
+                .eventDate("12-25-2020")
+                .postedDate("11-30-2020")
+                .build();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Events");
         dbReference = FirebaseDatabase.getInstance().getReference().child("Uploads");
 
-        organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);
+
 
     }
 
