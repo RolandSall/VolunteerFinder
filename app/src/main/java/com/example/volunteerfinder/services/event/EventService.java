@@ -39,9 +39,17 @@ public class EventService implements IEventService {
     @Override
     public void saveEvent(Event event) {
         UUID uuid = UUID.randomUUID();
-        // Creating a dummy Event
-        Event dummyEvent = createDummyEvent(uuid);
-        dbReference.child(uuid.toString()).setValue(dummyEvent);
+        // create Id
+        event.setEventId(uuid.toString());
+        // initially no participants
+        event.setParticipants(new ArrayList<>());
+        // Save event
+        dbReference.child(uuid.toString()).setValue(event);
+    }
+
+    public void saveDummyEventWithoutImage(Event event){
+        UUID uuid = UUID.randomUUID();
+        dbReference.child(uuid.toString()).setValue(createDummyEvent(uuid));
     }
 
     @Override

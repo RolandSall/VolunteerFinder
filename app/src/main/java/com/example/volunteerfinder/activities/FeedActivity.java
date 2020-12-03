@@ -101,7 +101,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
         dummy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventService.saveEvent(null);
+                eventService.saveDummyEventWithoutImage(null);
                 TempDialog.show();
                 countDownTimer = new CountDownTimer(2000,1000) {
                     @Override

@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
 public class NewEventActivity extends AppCompatActivity {
 
     private SharedPreferences sp;
-    private Button createEventButton;
     private Organization organization;
 
     private static final int CHOOSE_IMAGE_REQUEST = 1;
@@ -54,7 +53,6 @@ public class NewEventActivity extends AppCompatActivity {
 
 
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
     private StorageTask uploadTask;
 
     private Uri mImageUri;
@@ -87,20 +85,12 @@ public class NewEventActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.imageView);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
-
-
-
+        mStorageRef = FirebaseStorage.getInstance().getReference("Events");
         organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);
-        createEventButton = findViewById(R.id.createEventButton);
 
-        createEventButton.setOnClickListener(e -> {
-            eventService.createDummyEvent(organization);
-            finish();
-        });
     }
+
+
 
 
     private void openGallery(){
@@ -127,7 +117,9 @@ public class NewEventActivity extends AppCompatActivity {
 
                 String downloadedImageUrl = fileReference.getDownloadUrl().toString();
                 System.out.println(downloadedImageUrl);
-                mDatabaseRef.child("Test").setValue(downloadedImageUrl);
+
+                eventService.saveEvent(buildEvent(downloadedImageUrl));
+
 
             })
                     .addOnFailureListener(e -> Toast.makeText(NewEventActivity.this,e.getMessage(), Toast.LENGTH_LONG).show())
@@ -172,5 +164,21 @@ public class NewEventActivity extends AppCompatActivity {
 
     private double generateProgressForImageDownload(@NonNull UploadTask.TaskSnapshot snapshot) {
         return 100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount();
+    }
+
+    private Event buildEvent(String downloadedImageUrl) {
+        // dummy witch chosen Image
+        System.out.println("OBJECT: " + organization);
+        System.out.println("downloadedImageUrl: " + downloadedImageUrl);
+        return Event.builder()
+                .capacity(10)
+                .organization(organization)
+                .description("Latest Version of Dummy Events")
+                .location("Amchit")
+                .title("Together-Stronger")
+                .eventDate("12-25-2020")
+                .postedDate("11-30-2020")
+                .image(downloadedImageUrl)
+                .build();
     }
 }
