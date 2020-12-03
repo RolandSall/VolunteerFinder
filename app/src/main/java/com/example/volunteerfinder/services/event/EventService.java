@@ -13,18 +13,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class EventService implements IEventService {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference = database.getReference().child("Events");
+    private DatabaseReference dbReference = database.getReference().child("Events");
 
     @Override
     public void getEvents(Consumer<List<Event>> callback) {
-        reference.addValueEventListener(new ValueEventListener() {
+        dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
@@ -43,12 +41,12 @@ public class EventService implements IEventService {
         UUID uuid = UUID.randomUUID();
         // Creating a dummy Event
         Event dummyEvent = createDummyEvent(uuid);
-        reference.child(uuid.toString()).setValue(dummyEvent);
+        dbReference.child(uuid.toString()).setValue(dummyEvent);
     }
 
     @Override
     public void deleteEvent(String eventId) {
-        reference.child(eventId).removeValue();
+        dbReference.child(eventId).removeValue();
     }
 
     private Event createDummyEvent(UUID uuid) {

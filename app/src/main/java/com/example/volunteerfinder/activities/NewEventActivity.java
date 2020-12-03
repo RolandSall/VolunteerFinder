@@ -65,38 +65,18 @@ public class NewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event);
-
         initSetup();
 
 
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        uploadBtn.setOnClickListener(v -> {
+            if(IsInvalidDownload()) {
+                Toast.makeText(NewEventActivity.this,"Image Is Already Being Downloaded", Toast.LENGTH_LONG).show();
+            } else{
+                uploadFile();
             }
         });
 
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(uploadTask !=null && uploadTask.isInProgress()) {
-                    Toast.makeText(NewEventActivity.this,"Image Is Already Being Downloaded", Toast.LENGTH_LONG).show();
-                } else{
-                    uploadFile();
-
-                }
-
-
-            }
-        });
-
-        chooseFileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Choose File Clicked");
-                openGallery();
-            }
-        });
+        chooseFileBtn.setOnClickListener(v -> openGallery());
     }
 
     private void initSetup(){
@@ -124,6 +104,7 @@ public class NewEventActivity extends AppCompatActivity {
 
 
     private void openGallery(){
+        // Navigate to gallery and restrict only image type to appear
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -131,46 +112,33 @@ public class NewEventActivity extends AppCompatActivity {
     }
 
 
-    private String getFileExtension(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
     private void uploadFile(){
         if(mImageUri != null){
+
             String  uuid = UUID.randomUUID().toString();
             StorageReference fileReference = mStorageRef.child(uuid+"."+getFileExtension(mImageUri));
 
-            uploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> progressBar.setProgress(0), 500);
+            uploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(taskSnapshot -> {
+                // Create a handler for incrementing a visible progress bar
+                Handler handler = new Handler();
+                handler.postDelayed(() -> progressBar.setProgress(0), 500);
+                // Toast when image download is finished
+                Toast.makeText(NewEventActivity.this,"Image Uploaded", Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(NewEventActivity.this,"Image Uploaded", Toast.LENGTH_LONG).show();
-                    String downloadedImageUrl = fileReference.getDownloadUrl().toString();
+                String downloadedImageUrl = fileReference.getDownloadUrl().toString();
+                System.out.println(downloadedImageUrl);
+                mDatabaseRef.child("Test").setValue(downloadedImageUrl);
 
-                    System.out.println(downloadedImageUrl);
+            })
+                    .addOnFailureListener(e -> Toast.makeText(NewEventActivity.this,e.getMessage(), Toast.LENGTH_LONG).show())
 
-                    mDatabaseRef.child("Test").setValue(downloadedImageUrl);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(NewEventActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                    double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                    .addOnProgressListener(snapshot -> {
+                     double progress = generateProgressForImageDownload(snapshot);
                     progressBar.setProgress((int) progress);
-                }
-            });
+                     });
 
         }else {
-            Toast.makeText(this,"No Selected File", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"No File Has Been Selected", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -178,17 +146,31 @@ public class NewEventActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // if image valid -> show data in ImageView
         super.onActivityResult(requestCode, resultCode, data);
-
         if(isImageValid(requestCode, resultCode, data)){
             mImageUri = data.getData();
-            System.out.println(mImageUri);
-
             Picasso.get().load(mImageUri).into(imageView);
         }
     }
 
     private boolean isImageValid(int requestCode, int resultCode, @Nullable Intent data) {
         return requestCode == CHOOSE_IMAGE_REQUEST && resultCode == RESULT_OK && data !=null && data.getData() !=null;
+    }
+
+    private boolean IsInvalidDownload() {
+        // check if image downloaded is null and if there is an ongoing previous download
+        return uploadTask !=null && uploadTask.isInProgress();
+    }
+
+    private String getFileExtension(Uri uri){
+        // used to get image extensions .jpg, .jpeg
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private double generateProgressForImageDownload(@NonNull UploadTask.TaskSnapshot snapshot) {
+        return 100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount();
     }
 }
