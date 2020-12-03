@@ -15,5 +15,7 @@
     <string name="Address">Address</string>
     <string name="SignInButton">Sign In</string>
     <string name="SignUpButton">Sign up</string>
-
+    <string name="organization">Sign in as an Organization</string>
+    <string name="organizationSignUp">Sign up as an Organization</string>
+    <string name="logo">Logo</string>
 </resources>
