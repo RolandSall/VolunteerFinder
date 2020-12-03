@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
 
@@ -34,6 +35,7 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
 
     private Button ftch;
     private Button dummy;
+    private Button fetchByOrgId;
 
     private EventService eventService = new EventService();
     private SharedPreferences sp;
@@ -85,6 +87,18 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
             }
         });
 
+        fetchByOrgId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Pressed with dummy Id");
+                eventService.getEvents(list -> {
+                    eventAdapter.update(new ArrayList<>(list.stream().filter(event -> event.getOrganization().getOrganizationId().equals("1")).collect(Collectors.toList())));
+                });
+            }
+        });
+
+
+
         dummy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +136,8 @@ public class FeedActivity extends AppCompatActivity implements EventAdapter.OnCa
 
         ftch = findViewById(R.id.fetchB);
         dummy = findViewById(R.id.addbutton);
+        fetchByOrgId = findViewById(R.id.fetchByOrgId);
+
 
         eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
     }

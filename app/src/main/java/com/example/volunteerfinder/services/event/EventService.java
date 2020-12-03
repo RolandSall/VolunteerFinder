@@ -13,7 +13,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class EventService implements IEventService {
 
@@ -26,6 +28,7 @@ public class EventService implements IEventService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
+                System.out.println("ddd");
             }
 
             @Override
@@ -34,7 +37,6 @@ public class EventService implements IEventService {
             }
         });
     }
-
 
 
     @Override
