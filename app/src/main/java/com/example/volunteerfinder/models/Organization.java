@@ -21,4 +21,5 @@ public class Organization implements Serializable {
     private String organizationId;
     private String name;
     private String webPage;
+    private String password;
 }

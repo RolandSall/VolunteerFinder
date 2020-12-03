@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EventService eventService = new EventService();
     private User LoggedInUser;
 
+    private Button loginAct;
     SharedPreferences sp;
 
     @Override
@@ -70,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        loginAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
     }
 
     private boolean registerUser() {
@@ -169,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.registerBtn);
         signInBtn = findViewById(R.id.signInBtn);
 
+        loginAct = findViewById(R.id.loginActivityBtn);
         secondLayout = findViewById(R.id.SecondLayout);
         parent = findViewById(R.id.parent);
 
