@@ -26,6 +26,7 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
     private RecyclerView eventRecyclerView;
     private Button addEventButton;
 
+
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
@@ -46,9 +47,9 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         eventList = new ArrayList<>();
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
         addEventButton = findViewById(R.id.addEventButton);
-        sp = getSharedPreferences("OrganizationInfo", Context.MODE_PRIVATE);
 
-        organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);
+
+        organization = (Organization) getIntent().getSerializableExtra("organization");
 
         eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
         eventAdapter = new EventAdapter(this, eventList, this);

@@ -41,6 +41,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
     testImplementation 'junit:junit:4.+'
