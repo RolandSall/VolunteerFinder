@@ -13,4 +13,7 @@
     <string name="FirstName">Firstname</string>
     <string name="LastName">Lastname</string>
     <string name="Address">Address</string>
+    <string name="SignInButton">Sign In</string>
+    <string name="SignUpButton">Sign up</string>
+
 </resources>

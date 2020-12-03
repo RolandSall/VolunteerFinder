@@ -10,6 +10,7 @@
         android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
@@ -72,6 +73,13 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/SigninBtn"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/SignInButton" />
     </LinearLayout>
 
 </FrameLayout>
