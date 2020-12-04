@@ -5,11 +5,9 @@ import com.example.volunteerfinder.models.User;
 import java.util.HashMap;
 
 public class UserServiceMapper {
-
-
-    public User getUser(String key, HashMap userMap) {
-        return User.builder()
-                .userId(key)
+    public UserDAO getUser(String userId, HashMap userMap) {
+        return UserDAO.builder()
+                .userId(userId)
                 .password(userMap.get("password").toString())
                 .email(userMap.get("email").toString())
                 .address(userMap.get("address").toString())

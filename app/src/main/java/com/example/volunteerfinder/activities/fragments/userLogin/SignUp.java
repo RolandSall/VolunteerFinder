@@ -20,6 +20,7 @@ import com.example.volunteerfinder.activities.FeedActivity;
 import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.RegisterUserResponse;
+import com.example.volunteerfinder.services.user.UserRegisterRequest;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -38,7 +39,8 @@ public class SignUp extends Fragment {
 
     SharedPreferences sp;
 
-    public SignUp() {}
+    public SignUp() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,20 +63,20 @@ public class SignUp extends Fragment {
     private void registerUser() {
         if (validData()) {
             try {
-                RegisterUserResponse response = userService.save(buildUserRequestToSignIn());
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("user", new Gson().toJson(getUserFromResponse(response)));
-                editor.commit();
-                startActivity(new Intent(getActivity(), FeedActivity.class));
+                userService.save(buildRequestToRegister(), user -> {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("user", new Gson().toJson(user));
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), FeedActivity.class));
+                });
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private User getUserFromResponse(RegisterUserResponse response) {
-        return User.builder()
-                .userId(response.getUserId())
+    private UserRegisterRequest buildRequestToRegister() {
+        return UserRegisterRequest.builder()
                 .firstName(firstNameField.getText().toString())
                 .lastName(lastNameField.getText().toString())
                 .address(addressField.getText().toString())
@@ -83,15 +85,6 @@ public class SignUp extends Fragment {
                 .build();
     }
 
-    private User buildUserRequestToSignIn() {
-        return User.builder()
-                .firstName(firstNameField.getText().toString())
-                .lastName(lastNameField.getText().toString())
-                .address(addressField.getText().toString())
-                .password(passwordField.getText().toString())
-                .email(emailField.getText().toString())
-                .build();
-    }
 
     private boolean validData() {
         if (firstNameField.getText().toString().equals("")) {

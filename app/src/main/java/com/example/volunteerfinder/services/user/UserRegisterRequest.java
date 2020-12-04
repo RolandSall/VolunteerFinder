@@ -1,7 +1,4 @@
-package com.example.volunteerfinder.models;
-
-
-import java.io.Serializable;
+package com.example.volunteerfinder.services.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +13,10 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class User implements Serializable {
-    private String userId;
+public class UserRegisterRequest {
     private String firstName;
     private String lastName;
     private String address;
     private String email;
+    private String password;
 }
