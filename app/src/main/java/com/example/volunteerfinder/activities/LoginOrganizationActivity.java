@@ -46,38 +46,8 @@ public class LoginOrganizationActivity extends AppCompatActivity {
         initSetup();
         initFragments();
         /*checkUser();*/
-
-
-
-
-        // TODO: create a button for registering
-        /*
-
-           buttonCreated.setOnClickListener(v -> {
-           *** build your request using RegisterOrganizationReq
-           *** pass the request to the service
-           *** Returns the organization model
-           Organization organization =  organizationService.save(buildOrganizationRequest());
-
-        });
-
-         */
-
-
-
-
     }
 
-/*    private RegisterOrganizationRequest buildOrganizationRequest() {
-        // data comes from TextField i.e: address(addressTextField.getText().toString())
-        return new RegisterOrganizationRequest().builder()
-                .address()
-                .name()
-                .webPage()
-                .password()
-                .build();
-    }
-    */
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 

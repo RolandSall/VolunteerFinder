@@ -1,7 +1,6 @@
 package com.example.volunteerfinder.activities.fragments.organizationLogin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,13 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
-import com.example.volunteerfinder.activities.FeedActivity;
-import com.example.volunteerfinder.models.User;
+import com.example.volunteerfinder.models.Organization;
+import com.example.volunteerfinder.services.organization.IOrganizationService;
+import com.example.volunteerfinder.services.organization.OrganizationService;
 import com.example.volunteerfinder.services.user.IUserService;
-import com.example.volunteerfinder.services.user.RegisterUserResponse;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.Gson;
 
 public class SignUpOrganization extends Fragment {
 
@@ -33,7 +31,8 @@ public class SignUpOrganization extends Fragment {
 
     private Button registerButton;
 
-    private final IUserService userService = new UserService();
+
+    private IOrganizationService organizationService = new OrganizationService();
 
     SharedPreferences sp;
 
@@ -54,43 +53,29 @@ public class SignUpOrganization extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initSetup();
-        registerButton.setOnClickListener(event -> registerUser());
+        registerButton.setOnClickListener(event -> registerOrganization());
     }
 
-    private void registerUser() {
+    private void registerOrganization() {
         if (validData()) {
             try {
-                RegisterUserResponse response = userService.save(buildUserRequestToSignIn());
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("user", new Gson().toJson(getUserFromResponse(response)));
-                editor.commit();
-                startActivity(new Intent(getActivity(), FeedActivity.class));
+               /* Organization organization =  organizationService.save(buildOrganizationRequest());*/
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private User getUserFromResponse(RegisterUserResponse response) {
-        return User.builder()
-                .userId(response.getUserId())
-                .firstName(firstNameField.getText().toString())
-                .lastName(lastNameField.getText().toString())
-                .address(addressField.getText().toString())
-                .password(passwordField.getText().toString())
-                .email(emailField.getText().toString())
+/*    private RegisterOrganizationRequest buildOrganizationRequest() {
+        // data comes from TextField i.e: address(addressTextField.getText().toString())
+        return new RegisterOrganizationRequest().builder()
+                .address()
+                .name()
+                .webPage()
+                .password()
                 .build();
     }
-
-    private User buildUserRequestToSignIn() {
-        return User.builder()
-                .firstName(firstNameField.getText().toString())
-                .lastName(lastNameField.getText().toString())
-                .address(addressField.getText().toString())
-                .password(passwordField.getText().toString())
-                .email(emailField.getText().toString())
-                .build();
-    }
+    */
 
     private boolean validData() {
         if (firstNameField.getText().toString().equals("")) {
