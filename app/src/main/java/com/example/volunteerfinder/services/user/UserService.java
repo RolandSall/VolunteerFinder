@@ -42,6 +42,18 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public RegisterUserResponse save(UserRegisterRequest request) throws Exception {
+        UUID uuid = UUID.randomUUID();
+        hashPassword(request);
+        dbReference.child(uuid.toString()).setValue(request);
+        return null;
+    }
+
+    private void hashPassword(UserRegisterRequest request) throws Exception {
+        request.setPassword(hashingService.generateHash(request.getPassword()));
+    }
+
+    @Override
     public void login(UserLoginRequest request, Consumer<User> consumer) throws Exception {
         dbReference.orderByChild("email").equalTo(request.getEmail()).addValueEventListener(new ValueEventListener() {
 
@@ -49,9 +61,9 @@ public class UserService implements IUserService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = userServiceMapper.getUser(getUserId(snapshot), getUserDAO(snapshot));
-                if(isValidCredential(user, request)){
+                if (isValidCredential(user, request)) {
                     consumer.accept(user);
-                }else {
+                } else {
                     consumer.accept(null);
                 }
 
