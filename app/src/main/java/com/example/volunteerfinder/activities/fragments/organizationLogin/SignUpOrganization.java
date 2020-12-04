@@ -1,19 +1,18 @@
-package com.example.volunteerfinder.activities.fragments;
+package com.example.volunteerfinder.activities.fragments.organizationLogin;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
@@ -24,7 +23,7 @@ import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
-public class SignUp extends Fragment {
+public class SignUpOrganization extends Fragment {
 
     private TextInputEditText firstNameField;
     private TextInputEditText lastNameField;
@@ -38,7 +37,7 @@ public class SignUp extends Fragment {
 
     SharedPreferences sp;
 
-    public SignUp() {}
+    public SignUpOrganization() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

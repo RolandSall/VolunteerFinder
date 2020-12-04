@@ -5,6 +5,7 @@
     <string name="loginTab">Login</string>
     <string name="signupTab">Sign Up</string>
     <string name="userName">Email</string>
+    <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="loginIcon">loginIcon</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -17,5 +18,6 @@
     <string name="SignUpButton">Sign up</string>
     <string name="organization">Sign in as an Organization</string>
     <string name="organizationSignUp">Sign up as an Organization</string>
+    <string name="back">Go Back</string>
     <string name="logo">Logo</string>
 </resources>
