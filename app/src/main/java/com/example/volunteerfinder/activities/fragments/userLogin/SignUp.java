@@ -39,7 +39,8 @@ public class SignUp extends Fragment {
 
     SharedPreferences sp;
 
-    public SignUp() {}
+    public SignUp() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,18 +63,19 @@ public class SignUp extends Fragment {
     private void registerUser() {
         if (validData()) {
             try {
-                RegisterUserResponse response = userService.save(buildUserRequestToSignIn());
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("user", new Gson().toJson(getUserFromResponse(response)));
-                editor.commit();
-                startActivity(new Intent(getActivity(), FeedActivity.class));
+                userService.save(buildRequestToRegister(), user -> {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("user", new Gson().toJson(user));
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), FeedActivity.class));
+                });
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private UserRegisterRequest buildRequestToRegister(){
+    private UserRegisterRequest buildRequestToRegister() {
         return UserRegisterRequest.builder()
                 .firstName(firstNameField.getText().toString())
                 .lastName(lastNameField.getText().toString())
@@ -83,26 +85,6 @@ public class SignUp extends Fragment {
                 .build();
     }
 
-    private User getUserFromResponse(RegisterUserResponse response) {
-        return User.builder()
-                .userId(response.getUserId())
-                .firstName(firstNameField.getText().toString())
-                .lastName(lastNameField.getText().toString())
-                .address(addressField.getText().toString())
-                .password(passwordField.getText().toString())
-                .email(emailField.getText().toString())
-                .build();
-    }
-
-    private User buildUserRequestToSignIn() {
-        return User.builder()
-                .firstName(firstNameField.getText().toString())
-                .lastName(lastNameField.getText().toString())
-                .address(addressField.getText().toString())
-                .password(passwordField.getText().toString())
-                .email(emailField.getText().toString())
-                .build();
-    }
 
     private boolean validData() {
         if (firstNameField.getText().toString().equals("")) {
