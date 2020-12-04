@@ -19,6 +19,9 @@ import com.example.volunteerfinder.activities.fragments.organizationLogin.LoginO
 import com.example.volunteerfinder.activities.fragments.organizationLogin.SignUpOrganization;
 import com.example.volunteerfinder.activities.fragments.userLogin.Login;
 import com.example.volunteerfinder.activities.fragments.userLogin.SignUp;
+import com.example.volunteerfinder.models.Organization;
+import com.example.volunteerfinder.services.organization.OrganizationService;
+import com.example.volunteerfinder.services.organization.RegisterOrganizationRequest;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class LoginOrganizationActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private LoginOrganization loginFragment;
     private SignUpOrganization signUpFragment;
+
+    private OrganizationService organizationService = new OrganizationService();
     SharedPreferences sp;
 
     @Override
@@ -40,8 +45,39 @@ public class LoginOrganizationActivity extends AppCompatActivity {
 
         initSetup();
         initFragments();
-        checkUser();
+        /*checkUser();*/
+
+
+
+
+        // TODO: create a button for registering
+        /*
+
+           buttonCreated.setOnClickListener(v -> {
+           *** build your request using RegisterOrganizationReq
+           *** pass the request to the service
+
+           organizationService.save(buildOrganizationRequest());
+
+        });
+
+         */
+
+
+
+
     }
+
+/*    private RegisterOrganizationRequest buildOrganizationRequest() {
+        // data comes from TextField i.e: address(addressTextField.getText().toString())
+        return new RegisterOrganizationRequest().builder()
+                .address()
+                .name()
+                .webPage()
+                .password()
+                .build();
+    }
+    */
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 

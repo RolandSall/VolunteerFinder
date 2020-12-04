@@ -5,5 +5,5 @@ import com.example.volunteerfinder.models.User;
 
 public interface IOrganizationService {
 
-    RegisterOrganizationResponse save(Organization organization) throws Exception;
+    RegisterOrganizationResponse save(RegisterOrganizationRequest regOrganizationRequest) throws Exception;
 }

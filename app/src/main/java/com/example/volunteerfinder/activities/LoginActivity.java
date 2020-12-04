@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initSetup();
         initFragments();
-        checkUser();
+        /*checkUser();*/
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {

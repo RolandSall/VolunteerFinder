@@ -16,17 +16,30 @@ public class OrganizationService implements  IOrganizationService {
     private HashingService  hashingService = new HashingService();
 
     @Override
-    public RegisterOrganizationResponse save(Organization organization) throws Exception {
+    public RegisterOrganizationResponse save(RegisterOrganizationRequest regOrganizationRequest) throws Exception {
         UUID uuid = UUID.randomUUID();
-        String hashPassword = hashingService.generateHash(organization.getPassword());
-        organization.setPassword(hashPassword);
-        dbReference.child(uuid.toString()).setValue(organization);
-        RegisterOrganizationResponse response = buildServiceResponseFromFireBaseResponse(uuid, organization);
+        OrganizationDAO organizationDAO = buildOrganizationDAOFromRequest(uuid,regOrganizationRequest);
+        dbReference.child(uuid.toString()).setValue(organizationDAO);
+        RegisterOrganizationResponse response = buildServiceResponseFromFireBaseResponse(uuid, organizationDAO);
         return response;
     }
 
+    private OrganizationDAO buildOrganizationDAOFromRequest(UUID uuid, RegisterOrganizationRequest organizationRequest) throws Exception {
+        return new OrganizationDAO().builder()
+                .address(organizationRequest.getAddress())
+                .name(organizationRequest.getName())
+                .webPage(organizationRequest.getWebPage())
+                .organizationId(uuid.toString())
+                .password(getHashedPassword(organizationRequest.getPassword()))
+                .build();
+    }
 
-    private RegisterOrganizationResponse buildServiceResponseFromFireBaseResponse(UUID uuid, Organization organization) {
+    private String getHashedPassword(String password) throws Exception {
+        return hashingService.generateHash(password);
+    }
+
+
+    private RegisterOrganizationResponse buildServiceResponseFromFireBaseResponse(UUID uuid, OrganizationDAO organization) {
         return new RegisterOrganizationResponse().builder()
                 .address(organization.getAddress())
                 .name(organization.getName())
@@ -34,5 +47,7 @@ public class OrganizationService implements  IOrganizationService {
                 .organizationId(uuid.toString())
                 .build();
     }
+
+
 }
 
