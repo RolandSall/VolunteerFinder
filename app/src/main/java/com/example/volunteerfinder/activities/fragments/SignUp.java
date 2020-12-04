@@ -66,6 +66,7 @@ public class SignUp extends Fragment {
                 editor.putString("user", new Gson().toJson(getUserFromResponse(response)));
                 editor.commit();
                 startActivity(new Intent(getActivity(), FeedActivity.class));
+                getActivity().finish();
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
