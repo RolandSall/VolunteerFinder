@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.activities.fragments;
+package com.example.volunteerfinder.activities.fragments.userLogin;
 
 import android.content.Context;
 import android.content.SharedPreferences;
