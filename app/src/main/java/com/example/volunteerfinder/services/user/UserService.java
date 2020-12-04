@@ -14,9 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+import lombok.SneakyThrows;
 
 public class UserService implements IUserService {
 
@@ -24,6 +27,8 @@ public class UserService implements IUserService {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbReference = database.getReference("Users");
     private HashingService hashingService = new HashingService();
+    private UserServiceMapper userServiceMapper = new UserServiceMapper();
+
 
     @Override
     public RegisterUserResponse save(User request) throws Exception {
@@ -37,18 +42,34 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void login(Consumer<User> consumer, UserLoginRequest request) throws Exception {
-        dbReference.addValueEventListener(new ValueEventListener() {
+    public void login(UserLoginRequest request, Consumer<User> consumer) throws Exception {
+        dbReference.orderByChild("email").equalTo(request.getEmail()).addValueEventListener(new ValueEventListener() {
+
+            @SneakyThrows
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = userServiceMapper.getUser(snapshot.getChildren().iterator().next().getKey(), (HashMap) snapshot.getChildren().iterator().next().getValue());
+                if(isValidCredential(user, request)){
+                    consumer.accept(user);
+                }else {
+                  consumer.accept(null);
+                }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+    }
+
+    private boolean isValidCredential(User user, UserLoginRequest request) throws Exception {
+        if (user != null) {
+            if (user.getPassword().equals(hashingService.generateHash(request.getPassword()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
    /* private List<User> buildUserFromFireBaseResponse(ArrayList<EventsServiceResponse> eventList) {

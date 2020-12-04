@@ -11,7 +11,7 @@ public interface IUserService {
     RegisterUserResponse save(User request) throws Exception;
 
 
-    void login(Consumer<User> consumer, UserLoginRequest request) throws Exception;
+    void login(UserLoginRequest request,Consumer<User> consumer) throws Exception;
 
 
 }

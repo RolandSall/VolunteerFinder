@@ -1,6 +1,7 @@
 package com.example.volunteerfinder.activities.fragments.userLogin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -12,12 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.activities.FeedActivity;
+import com.example.volunteerfinder.activities.NewEventActivity;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.util.function.ToDoubleBiFunction;
 
@@ -55,11 +60,16 @@ public class Login extends Fragment {
     }
 
     private void login() {
-        if(validData()) {
+        if (validData()) {
             try {
-              /*  userService.login(user -> {
-
-                });*/
+                userService.login(buildLoginRequest(), user -> {
+                    if(user != null) {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("user", new Gson().toJson(user));
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), FeedActivity.class));
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,7 +77,7 @@ public class Login extends Fragment {
     }
 
     private UserLoginRequest buildLoginRequest() {
-        return  new UserLoginRequest().builder()
+        return new UserLoginRequest().builder()
                 .password(passwordField.getText().toString())
                 .email(emailField.getText().toString())
                 .build();
