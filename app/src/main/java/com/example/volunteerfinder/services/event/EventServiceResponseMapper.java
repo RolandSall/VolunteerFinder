@@ -32,7 +32,7 @@ public class EventServiceResponseMapper {
                 .postedDate(eventHashMap.get("postedDate").toString())
                 .capacity(Integer.parseInt(eventHashMap.get("capacity").toString()))
                 .image(eventHashMap.get("image").toString())
-                .organization(organizationMapper.buildOrganization((HashMap) eventHashMap.get("organization")))
+                .organization(organizationMapper.getOrganization((HashMap) eventHashMap.get("organization")))
                 .build();
     }
 }
