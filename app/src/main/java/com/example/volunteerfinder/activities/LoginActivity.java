@@ -1,5 +1,8 @@
 package com.example.volunteerfinder.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,8 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.fragments.Login;
-import com.example.volunteerfinder.activities.fragments.Signup;
-import com.google.android.material.badge.BadgeDrawable;
+import com.example.volunteerfinder.activities.fragments.SignUp;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -27,28 +29,17 @@ public class LoginActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Login loginFragment;
-    private Signup signupFragment;
+    private SignUp signUpFragment;
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tab_layout);
-
-        loginFragment = new Login();
-        signupFragment = new Signup();
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
-        viewPagerAdapter.addFragment(loginFragment, "Login");
-        viewPagerAdapter.addFragment(signupFragment, "Sign Up");
-        viewPager.setAdapter(viewPagerAdapter);
-
+        initSetup();
+        initFragments();
+        checkUser();
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -80,6 +71,36 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return fragmentTitle.get(position);
+        }
+    }
+
+    private void initSetup(){
+        sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+    }
+
+    private void initFragments(){
+        loginFragment = new Login();
+        signUpFragment = new SignUp();
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
+        viewPagerAdapter.addFragment(loginFragment, "Login");
+        viewPagerAdapter.addFragment(signUpFragment, "Sign Up");
+        viewPager.setAdapter(viewPagerAdapter);
+    }
+
+    private void checkUser() {
+        String userString = sp.getString("user", "");
+        if (!userString.equals("")) {
+            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+            finish();
         }
     }
 }
