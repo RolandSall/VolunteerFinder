@@ -16,11 +16,11 @@ public class OrganizationService implements  IOrganizationService {
     private HashingService  hashingService = new HashingService();
 
     @Override
-    public RegisterOrganizationResponse save(RegisterOrganizationRequest regOrganizationRequest) throws Exception {
+    public Organization save(RegisterOrganizationRequest regOrganizationRequest) throws Exception {
         UUID uuid = UUID.randomUUID();
         OrganizationDAO organizationDAO = buildOrganizationDAOFromRequest(uuid,regOrganizationRequest);
         dbReference.child(uuid.toString()).setValue(organizationDAO);
-        RegisterOrganizationResponse response = buildServiceResponseFromFireBaseResponse(uuid, organizationDAO);
+        Organization response = buildOrganizationFromResponse(uuid, organizationDAO);
         return response;
     }
 
@@ -39,8 +39,8 @@ public class OrganizationService implements  IOrganizationService {
     }
 
 
-    private RegisterOrganizationResponse buildServiceResponseFromFireBaseResponse(UUID uuid, OrganizationDAO organization) {
-        return new RegisterOrganizationResponse().builder()
+    private Organization buildOrganizationFromResponse(UUID uuid, OrganizationDAO organization) {
+        return new Organization().builder()
                 .address(organization.getAddress())
                 .name(organization.getName())
                 .webPage(organization.getWebPage())

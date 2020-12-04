@@ -56,8 +56,8 @@ public class LoginOrganizationActivity extends AppCompatActivity {
            buttonCreated.setOnClickListener(v -> {
            *** build your request using RegisterOrganizationReq
            *** pass the request to the service
-
-           organizationService.save(buildOrganizationRequest());
+           *** Returns the organization model
+           Organization organization =  organizationService.save(buildOrganizationRequest());
 
         });
 
