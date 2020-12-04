@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.user.IUserService;
+import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -55,8 +56,21 @@ public class Login extends Fragment {
 
     private void login() {
         if(validData()) {
-            //TODO Call login function here please
+            try {
+              /*  userService.login(user -> {
+
+                });*/
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private UserLoginRequest buildLoginRequest() {
+        return  new UserLoginRequest().builder()
+                .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
+                .build();
     }
 
     private boolean validData() {

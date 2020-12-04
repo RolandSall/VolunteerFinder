@@ -1,4 +1,4 @@
-package com.example.volunteerfinder.services.organization;
+package com.example.volunteerfinder.services.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class RegisterOrganizationResponse {
-    private String organizationId;
-    private String name;
-    private String webPage;
-    private String address;
+public class UserLoginRequest {
+    private String email;
+    private String password;
 }
