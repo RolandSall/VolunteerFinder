@@ -48,11 +48,11 @@ public class UserService implements IUserService {
             @SneakyThrows
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = userServiceMapper.getUser(snapshot.getChildren().iterator().next().getKey(), (HashMap) snapshot.getChildren().iterator().next().getValue());
+                User user = userServiceMapper.getUser(getUserId(snapshot), getUserDAO(snapshot));
                 if(isValidCredential(user, request)){
                     consumer.accept(user);
                 }else {
-                  consumer.accept(null);
+                    consumer.accept(null);
                 }
 
             }
@@ -63,6 +63,14 @@ public class UserService implements IUserService {
         });
     }
 
+    private HashMap getUserDAO(@NonNull DataSnapshot snapshot) {
+        return (HashMap) snapshot.getChildren().iterator().next().getValue();
+    }
+
+    private String getUserId(@NonNull DataSnapshot snapshot) {
+        return snapshot.getChildren().iterator().next().getKey();
+    }
+
     private boolean isValidCredential(User user, UserLoginRequest request) throws Exception {
         if (user != null) {
             if (user.getPassword().equals(hashingService.generateHash(request.getPassword()))) {
@@ -71,10 +79,6 @@ public class UserService implements IUserService {
         }
         return false;
     }
-
-   /* private List<User> buildUserFromFireBaseResponse(ArrayList<EventsServiceResponse> eventList) {
-    }*/
-
 
     private RegisterUserResponse buildServiceResponseFromFireBaseResponse(UUID uuid, User user) throws NoSuchFieldException {
         return new RegisterUserResponse().builder()
