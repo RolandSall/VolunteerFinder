@@ -1,8 +1,4 @@
-package com.example.volunteerfinder.models;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
+package com.example.volunteerfinder.services.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,9 +13,11 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class Organization implements Serializable {
-    private String organizationId;
-    private String name;
-    private String webPage;
+public class UserDAO {
+    private String userId;
+    private String firstName;
+    private String lastName;
     private String address;
+    private String email;
+    private String password;
 }

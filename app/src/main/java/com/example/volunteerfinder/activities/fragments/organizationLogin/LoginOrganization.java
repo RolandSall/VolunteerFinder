@@ -1,27 +1,24 @@
-package com.example.volunteerfinder.activities.fragments;
+package com.example.volunteerfinder.activities.fragments.organizationLogin;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.function.ToDoubleBiFunction;
 
-
-public class Login extends Fragment {
+public class LoginOrganization extends Fragment {
 
     private TextInputEditText emailField;
     private TextInputEditText passwordField;
@@ -32,7 +29,7 @@ public class Login extends Fragment {
 
     SharedPreferences sp;
 
-    public Login() {
+    public LoginOrganization() {
     }
 
     @Override

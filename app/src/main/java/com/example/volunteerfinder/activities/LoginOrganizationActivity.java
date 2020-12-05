@@ -7,40 +7,47 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.activities.fragments.organizationLogin.LoginOrganization;
+import com.example.volunteerfinder.activities.fragments.organizationLogin.SignUpOrganization;
 import com.example.volunteerfinder.activities.fragments.userLogin.Login;
 import com.example.volunteerfinder.activities.fragments.userLogin.SignUp;
+import com.example.volunteerfinder.models.Organization;
+import com.example.volunteerfinder.services.organization.OrganizationService;
+import com.example.volunteerfinder.services.organization.RegisterOrganizationRequest;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginOrganizationActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private Login loginFragment;
-    private SignUp signUpFragment;
+    private LoginOrganization loginFragment;
+    private SignUpOrganization signUpFragment;
+
+    private OrganizationService organizationService = new OrganizationService();
     SharedPreferences sp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_organization);
 
         initSetup();
         initFragments();
         /*checkUser();*/
     }
+
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -85,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initFragments(){
-        loginFragment = new Login();
-        signUpFragment = new SignUp();
+        loginFragment = new LoginOrganization();
+        signUpFragment = new SignUpOrganization();
 
         tabLayout.setupWithViewPager(viewPager);
 
@@ -99,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkUser() {
         String userString = sp.getString("user", "");
         if (!userString.equals("")) {
-            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+            startActivity(new Intent(LoginOrganizationActivity.this, FeedActivity.class));
             finish();
         }
     }
