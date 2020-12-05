@@ -109,7 +109,7 @@ public class SignUpOrganization extends Fragment {
         addressField = getView().findViewById(R.id.addressField);
         passwordField = getView().findViewById(R.id.passwordField);
 
-        registerButton = getView().findViewById(R.id.loginButton);
+        registerButton = getView().findViewById(R.id.signUpButton);
 
         sp = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
