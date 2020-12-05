@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EventService implements IEventService {
 
@@ -26,6 +28,22 @@ public class EventService implements IEventService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.accept(buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getOrganizationEvents(Organization organization, Consumer<List<Event>> callback) {
+        dbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Stream<Event> eventsStream = buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)).stream();
+                callback.accept(eventsStream.filter(event -> event.getOrganization().equals(organization)).collect(Collectors.toList()));
             }
 
             @Override

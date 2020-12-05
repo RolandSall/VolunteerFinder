@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
+import com.example.volunteerfinder.activities.OrganizationProfileActivity;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.example.volunteerfinder.services.user.UserService;
@@ -62,8 +63,9 @@ public class Login extends Fragment {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("user", new Gson().toJson(user));
                 editor.commit();
-                startActivity(new Intent(getActivity(), FeedActivity.class));
-                getActivity().finish();
+                    Intent intent = new Intent(getActivity(), FeedActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             });
         }

@@ -30,7 +30,7 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
-    private ArrayList<Event> eventList;
+    private ArrayList<Event> eventList ;
     private EventAdapter eventAdapter;
 
     private Organization organization;
@@ -41,30 +41,34 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_profile);
         initSetup();
+        initRecycler();
+
+        eventService.getOrganizationEvents(organization, list-> eventAdapter.update(new ArrayList<>(list)));
     }
 
     private void initSetup() {
-        eventList = new ArrayList<>();
-        eventRecyclerView = findViewById(R.id.eventRecyclerView);
-        addEventButton = findViewById(R.id.addEventButton);
-
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);;
 
-        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
-        eventAdapter = new EventAdapter(this, eventList, this);
+        eventList = new ArrayList<>();
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        eventRecyclerView.setLayoutManager(layoutManager);
-        eventRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        eventRecyclerView.setAdapter(eventAdapter);
-        eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        eventRecyclerView = findViewById(R.id.eventRecyclerView);
+        addEventButton = findViewById(R.id.addEventButton);
 
         addEventButton.setOnClickListener(e -> {
             Intent intent = new Intent(OrganizationProfileActivity.this, NewEventActivity.class);
             intent.putExtra("organization", organization);
             startActivity(intent);
         });
+    }
+
+    private void initRecycler() {
+        eventAdapter = new EventAdapter(this, eventList, this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        eventRecyclerView.setLayoutManager(layoutManager);
+        eventRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        eventRecyclerView.setAdapter(eventAdapter);
+        eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     @Override

@@ -64,8 +64,9 @@ public class SignUpOrganization extends Fragment {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("organization", new Gson().toJson(organization));
                     editor.commit();
-                    startActivity(new Intent(getActivity(), OrganizationProfileActivity.class));
-                    getActivity().finish();
+                    Intent intent = new Intent(getActivity(), OrganizationProfileActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 });
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
