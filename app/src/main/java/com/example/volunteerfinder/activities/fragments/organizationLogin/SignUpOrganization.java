@@ -106,7 +106,7 @@ public class SignUpOrganization extends Fragment {
         organizationNameField = getView().findViewById(R.id.nameField);
         webPageField = getView().findViewById(R.id.webPageField);
         emailField = getView().findViewById(R.id.emailField);
-        addressField = getView().findViewById(R.id.emailField);
+        addressField = getView().findViewById(R.id.addressField);
         passwordField = getView().findViewById(R.id.passwordField);
 
         registerButton = getView().findViewById(R.id.loginButton);
