@@ -1,7 +1,6 @@
 package com.example.volunteerfinder.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,11 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.fragments.organizationLogin.LoginOrganization;
 import com.example.volunteerfinder.activities.fragments.organizationLogin.SignUpOrganization;
-import com.example.volunteerfinder.activities.fragments.userLogin.Login;
-import com.example.volunteerfinder.activities.fragments.userLogin.SignUp;
-import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.services.organization.OrganizationService;
-import com.example.volunteerfinder.services.organization.RegisterOrganizationRequest;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

@@ -31,6 +31,7 @@ public class OrganizationMapper {
                 .name(organizationHashMap.get("name").toString())
                 .webPage(organizationHashMap.get("webPage").toString())
                 .organizationId(organizationId)
+                .email(organizationHashMap.get("email").toString())
                 .address(organizationHashMap.get("address").toString())
                 .password(organizationHashMap.get("password").toString())
                 .build();
