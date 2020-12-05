@@ -3,9 +3,9 @@ package com.example.volunteerfinder.services.organization;
 import androidx.annotation.NonNull;
 
 import com.example.volunteerfinder.models.Organization;
-import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.helper.HashingService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
+import com.example.volunteerfinder.services.user.UserRegisterRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,13 +25,22 @@ public class OrganizationService implements  IOrganizationService {
     private OrganizationMapper organizationMapper = new OrganizationMapper();
     private HashingService  hashingService = new HashingService();
 
-    @Override
-    public Organization save(RegisterOrganizationRequest regOrganizationRequest) throws Exception {
+
+    public void save(OrganizationRegisterRequest registerRequest, Consumer<Organization> organizationConsumer) throws Exception {
         UUID uuid = UUID.randomUUID();
-        OrganizationDAO organizationDAO = buildOrganizationDAOFromRequest(uuid,regOrganizationRequest);
-        dbReference.child(uuid.toString()).setValue(organizationDAO);
-        Organization response = buildOrganizationFromResponse(uuid, organizationDAO);
-        return response;
+        hashPassword(registerRequest);
+        dbReference.child(uuid.toString()).setValue(registerRequest).addOnCompleteListener(task ->
+                organizationConsumer.accept(buildOrganizationAfterSaveSuccess(uuid,registerRequest)));
+    }
+
+    private Organization buildOrganizationAfterSaveSuccess(UUID uuid, OrganizationRegisterRequest registerRequest) {
+        return new Organization().builder()
+                .organizationId(uuid.toString())
+                .address(registerRequest.getAddress())
+                .webPage(registerRequest.getWebPage())
+                .name(registerRequest.getName())
+                .email(registerRequest.getEmail())
+                .build();
     }
 
     @Override
@@ -86,7 +95,7 @@ public class OrganizationService implements  IOrganizationService {
     }
 
 
-    private OrganizationDAO buildOrganizationDAOFromRequest(UUID uuid, RegisterOrganizationRequest organizationRequest) throws Exception {
+    private OrganizationDAO buildOrganizationDAOFromRequest(UUID uuid, OrganizationRegisterRequest organizationRequest) throws Exception {
         return new OrganizationDAO().builder()
                 .address(organizationRequest.getAddress())
                 .name(organizationRequest.getName())
@@ -103,13 +112,8 @@ public class OrganizationService implements  IOrganizationService {
     }
 
 
-    private Organization buildOrganizationFromResponse(UUID uuid, OrganizationDAO organization) {
-        return new Organization().builder()
-                .address(organization.getAddress())
-                .name(organization.getName())
-                .webPage(organization.getWebPage())
-                .organizationId(uuid.toString())
-                .build();
+    private void hashPassword(OrganizationRegisterRequest request) throws Exception {
+        request.setPassword(hashingService.generateHash(request.getPassword()));
     }
 
 

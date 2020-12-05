@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class RegisterOrganizationRequest {
+public class OrganizationRegisterRequest {
     private String name;
     private String webPage;
     private String address;

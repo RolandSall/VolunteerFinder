@@ -15,12 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
-import com.example.volunteerfinder.activities.FeedActivity;
 import com.example.volunteerfinder.activities.OrganizationProfileActivity;
 import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
-import com.example.volunteerfinder.services.organization.RegisterOrganizationRequest;
+import com.example.volunteerfinder.services.organization.OrganizationRegisterRequest;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
@@ -61,20 +60,21 @@ public class SignUpOrganization extends Fragment {
     private void registerOrganization() {
         if (validData()) {
             try {
-                Organization organization =  organizationService.save(buildOrganizationRequest());
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("organization", new Gson().toJson(organization));
-                editor.commit();
-                startActivity(new Intent(getActivity(), OrganizationProfileActivity.class));
-                getActivity().finish();
+                organizationService.save(buildOrganizationRequest(), organization -> {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("organization", new Gson().toJson(organization));
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), OrganizationProfileActivity.class));
+                    getActivity().finish();
+                });
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private RegisterOrganizationRequest buildOrganizationRequest() {
-        return RegisterOrganizationRequest.builder()
+    private OrganizationRegisterRequest buildOrganizationRequest() {
+        return OrganizationRegisterRequest.builder()
                 .address(addressField.getText().toString())
                 .name(organizationNameField.getText().toString())
                 .webPage(webPageField.getText().toString())
