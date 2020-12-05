@@ -18,4 +18,5 @@ public class RegisterOrganizationRequest {
     private String webPage;
     private String address;
     private String password;
+    private String email;
 }

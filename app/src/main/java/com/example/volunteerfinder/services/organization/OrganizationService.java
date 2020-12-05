@@ -93,6 +93,7 @@ public class OrganizationService implements  IOrganizationService {
                 .webPage(organizationRequest.getWebPage())
                 .organizationId(uuid.toString())
                 .password(getHashedPassword(organizationRequest.getPassword()))
+                .email(organizationRequest.getEmail())
                 .build();
     }
 

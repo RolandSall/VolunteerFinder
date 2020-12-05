@@ -79,6 +79,7 @@ public class SignUpOrganization extends Fragment {
                 .name(organizationNameField.getText().toString())
                 .webPage(webPageField.getText().toString())
                 .password(passwordField.getText().toString())
+                .email(emailField.getText().toString())
                 .build();
     }
 
