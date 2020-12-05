@@ -21,6 +21,7 @@ import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationRegisterRequest;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 public class SignUpOrganization extends Fragment {
@@ -30,6 +31,11 @@ public class SignUpOrganization extends Fragment {
     private TextInputEditText addressField;
     private TextInputEditText emailField;
     private TextInputEditText passwordField;
+    private TextInputLayout organizationNameLayout;
+    private TextInputLayout webPageLayout;
+    private TextInputLayout addressLayout;
+    private TextInputLayout emailLayout;
+    private TextInputLayout passwordLayout;
 
     private Button registerButton;
 
@@ -87,18 +93,23 @@ public class SignUpOrganization extends Fragment {
 
     private boolean validData() {
         if (organizationNameField.getText().toString().equals("")) {
+            organizationNameLayout.setError("You must enter your organization name");
             return false;
         }
         if (webPageField.getText().toString().equals("")) {
+            webPageLayout.setError("You must enter your website");
             return false;
         }
         if (emailField.getText().toString().equals("")) {
+            emailLayout.setError("You must enter your email");
             return false;
         }
         if (addressField.getText().toString().equals("")) {
+            addressLayout.setError("You must enter your address");
             return false;
         }
         if (passwordField.getText().toString().equals("")) {
+            passwordLayout.setError("You must enter a password");
             return false;
         }
         return true;
@@ -110,6 +121,11 @@ public class SignUpOrganization extends Fragment {
         emailField = getView().findViewById(R.id.emailField);
         addressField = getView().findViewById(R.id.addressField);
         passwordField = getView().findViewById(R.id.passwordField);
+        organizationNameLayout = getView().findViewById(R.id.organizationWebpage);
+        webPageLayout = getView().findViewById(R.id.webPageLayout);
+        emailLayout = getView().findViewById(R.id.emailLayout);
+        addressLayout = getView().findViewById(R.id.addressLayout);
+        passwordLayout = getView().findViewById(R.id.passwordLayout);
 
         registerButton = getView().findViewById(R.id.signUpButton);
 

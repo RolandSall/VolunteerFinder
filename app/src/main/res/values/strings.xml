@@ -11,8 +11,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loginI">&amp;#xf2f6</string>
-    <string name="FirstName">Firstname</string>
-    <string name="LastName">Lastname</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
     <string name="Address">Address</string>
     <string name="SignInButton">Sign In</string>
     <string name="SignUpButton">Sign up</string>

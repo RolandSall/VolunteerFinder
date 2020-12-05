@@ -20,6 +20,7 @@ import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 
@@ -27,6 +28,8 @@ public class LoginOrganization extends Fragment {
 
     private TextInputEditText emailField;
     private TextInputEditText passwordField;
+    private TextInputLayout emailLayout;
+    private TextInputLayout passwordLayout;
 
     private Button loginButton;
 
@@ -79,9 +82,11 @@ public class LoginOrganization extends Fragment {
 
     private boolean validData() {
         if (emailField.getText().toString().equals("")) {
+            emailLayout.setError("You must enter an email");
             return false;
         }
         if (passwordField.getText().toString().equals("")) {
+            passwordLayout.setError("You must enter a password");
             return false;
         }
         return true;
@@ -90,6 +95,8 @@ public class LoginOrganization extends Fragment {
     private void initSetup() {
         emailField = getView().findViewById(R.id.emailField);
         passwordField = getView().findViewById(R.id.passwordField);
+        emailLayout = getView().findViewById(R.id.emailLayout);
+        passwordLayout = getView().findViewById(R.id.passwordLayout);
 
         loginButton = getView().findViewById(R.id.loginButton);
 
