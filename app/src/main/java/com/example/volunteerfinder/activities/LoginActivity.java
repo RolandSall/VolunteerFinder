@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
         initSetup();
         initFragments();
-        /*checkUser();*/
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -94,13 +93,5 @@ public class LoginActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(loginFragment, "Login");
         viewPagerAdapter.addFragment(signUpFragment, "Sign Up");
         viewPager.setAdapter(viewPagerAdapter);
-    }
-
-    private void checkUser() {
-        String userString = sp.getString("user", "");
-        if (!userString.equals("")) {
-            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
-            finish();
-        }
     }
 }

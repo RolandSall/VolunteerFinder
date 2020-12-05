@@ -45,7 +45,6 @@ public class LoginOrganizationActivity extends AppCompatActivity {
 
         initSetup();
         initFragments();
-        /*checkUser();*/
     }
 
 
@@ -103,11 +102,5 @@ public class LoginOrganizationActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
     }
 
-    private void checkUser() {
-        String userString = sp.getString("user", "");
-        if (!userString.equals("")) {
-            startActivity(new Intent(LoginOrganizationActivity.this, FeedActivity.class));
-            finish();
-        }
-    }
+
 }
