@@ -16,7 +16,6 @@ public class EventActivity extends AppCompatActivity {
     private TextView eventTitle;
     private Button organizationWebPageButton;
     private Button googleMapsButton;
-    private Button organizationProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,6 @@ public class EventActivity extends AppCompatActivity {
 
         organizationWebPageButton = findViewById(R.id.openWebPageButton);
         googleMapsButton = findViewById(R.id.googleMapsButton);
-        organizationProfileButton = findViewById(R.id.organizationProfileButton);
 
         organizationWebPageButton.setOnClickListener(e -> {
             Intent intent = new Intent(EventActivity.this, OrganizationWebPageActivity.class);
@@ -43,12 +41,6 @@ public class EventActivity extends AppCompatActivity {
         googleMapsButton.setOnClickListener(e -> {
             Intent intent = new Intent(EventActivity.this, MapsActivity.class);
             intent.putExtra("location", event.getLocation());
-            startActivity(intent);
-        });
-
-        organizationProfileButton.setOnClickListener(e -> {
-            Intent intent = new Intent(EventActivity.this, OrganizationProfileActivity.class);
-            intent.putExtra("organization", event.getOrganization());
             startActivity(intent);
         });
     }

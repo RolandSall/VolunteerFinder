@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
-import com.example.volunteerfinder.services.user.IUserService;
-import com.example.volunteerfinder.services.user.UserService;
+import com.example.volunteerfinder.services.organization.IOrganizationService;
+import com.example.volunteerfinder.services.organization.OrganizationService;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -25,7 +25,7 @@ public class LoginOrganization extends Fragment {
 
     private Button loginButton;
 
-    private final IUserService userService = new UserService();
+    private final IOrganizationService organizationService = new OrganizationService();
 
     SharedPreferences sp;
 

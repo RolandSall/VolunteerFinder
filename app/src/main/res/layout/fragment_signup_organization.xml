@@ -51,7 +51,7 @@
                 android:hint="@string/orgname">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/OrganizationName"
+                    android:id="@+id/nameField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +66,7 @@
                 android:hint="@string/userName">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addressField"
+                    android:id="@+id/emailField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +81,7 @@
                 android:hint="@string/webpage">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/webpageField"
+                    android:id="@+id/webPageField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +97,7 @@
                 android:hint="@string/Address">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailField"
+                    android:id="@+id/addressField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +120,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/signUpButton"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,15 +131,6 @@
 
         </LinearLayout>
     </ScrollView>
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/organization"
-        android:text="@string/back"
-        app:icon="@drawable/baseline_arrow_back_ios_new_24" />
 
 
 </FrameLayout>

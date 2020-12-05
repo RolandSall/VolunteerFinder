@@ -1,6 +1,7 @@
 package com.example.volunteerfinder.activities.fragments.organizationLogin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,23 +15,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.activities.FeedActivity;
+import com.example.volunteerfinder.activities.OrganizationProfileActivity;
 import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
-import com.example.volunteerfinder.services.user.IUserService;
-import com.example.volunteerfinder.services.user.UserService;
+import com.example.volunteerfinder.services.organization.RegisterOrganizationRequest;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 public class SignUpOrganization extends Fragment {
 
-    private TextInputEditText firstNameField;
-    private TextInputEditText lastNameField;
+    private TextInputEditText organizationNameField;
+    private TextInputEditText webPageField;
     private TextInputEditText addressField;
     private TextInputEditText emailField;
     private TextInputEditText passwordField;
 
     private Button registerButton;
-
 
     private IOrganizationService organizationService = new OrganizationService();
 
@@ -59,29 +61,33 @@ public class SignUpOrganization extends Fragment {
     private void registerOrganization() {
         if (validData()) {
             try {
-               /* Organization organization =  organizationService.save(buildOrganizationRequest());*/
+                Organization organization =  organizationService.save(buildOrganizationRequest());
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("organization", new Gson().toJson(organization));
+                editor.commit();
+                startActivity(new Intent(getActivity(), OrganizationProfileActivity.class));
+                getActivity().finish();
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-/*    private RegisterOrganizationRequest buildOrganizationRequest() {
-        // data comes from TextField i.e: address(addressTextField.getText().toString())
-        return new RegisterOrganizationRequest().builder()
-                .address()
-                .name()
-                .webPage()
-                .password()
+    private RegisterOrganizationRequest buildOrganizationRequest() {
+        return RegisterOrganizationRequest.builder()
+                .address(addressField.getText().toString())
+                .name(organizationNameField.getText().toString())
+                .webPage(webPageField.getText().toString())
+                .password(passwordField.getText().toString())
                 .build();
     }
-    */
+
 
     private boolean validData() {
-        if (firstNameField.getText().toString().equals("")) {
+        if (organizationNameField.getText().toString().equals("")) {
             return false;
         }
-        if (lastNameField.getText().toString().equals("")) {
+        if (webPageField.getText().toString().equals("")) {
             return false;
         }
         if (emailField.getText().toString().equals("")) {
@@ -97,10 +103,10 @@ public class SignUpOrganization extends Fragment {
     }
 
     private void initSetup() {
-        firstNameField = getView().findViewById(R.id.firstNameField);
-        lastNameField = getView().findViewById(R.id.lastNameField);
+        organizationNameField = getView().findViewById(R.id.nameField);
+        webPageField = getView().findViewById(R.id.webPageField);
         emailField = getView().findViewById(R.id.emailField);
-        addressField = getView().findViewById(R.id.addressField);
+        addressField = getView().findViewById(R.id.emailField);
         passwordField = getView().findViewById(R.id.passwordField);
 
         registerButton = getView().findViewById(R.id.loginButton);

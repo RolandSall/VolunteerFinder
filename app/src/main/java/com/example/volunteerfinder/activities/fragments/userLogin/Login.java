@@ -13,18 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
-import com.example.volunteerfinder.activities.NewEventActivity;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
-
-import java.util.function.ToDoubleBiFunction;
 
 
 public class Login extends Fragment {
@@ -68,6 +64,7 @@ public class Login extends Fragment {
                     editor.putString("user", new Gson().toJson(user));
                     editor.commit();
                     startActivity(new Intent(getActivity(), FeedActivity.class));
+                    getActivity().finish();
                     }
                 });
             } catch (Exception e) {

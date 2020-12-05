@@ -16,6 +16,7 @@ import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.adapters.EventAdapter;
 import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.Organization;
+import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.event.EventService;
 import com.google.gson.Gson;
 
@@ -25,7 +26,6 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
 
     private RecyclerView eventRecyclerView;
     private Button addEventButton;
-
 
     private EventService eventService = new EventService();
     private SharedPreferences sp;
@@ -48,8 +48,8 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
         addEventButton = findViewById(R.id.addEventButton);
 
-
-        organization = (Organization) getIntent().getSerializableExtra("organization");
+        sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);;
 
         eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
         eventAdapter = new EventAdapter(this, eventList, this);

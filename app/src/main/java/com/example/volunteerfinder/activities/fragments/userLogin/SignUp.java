@@ -17,9 +17,7 @@ import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
-import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.user.IUserService;
-import com.example.volunteerfinder.services.user.RegisterUserResponse;
 import com.example.volunteerfinder.services.user.UserRegisterRequest;
 import com.example.volunteerfinder.services.user.UserService;
 import com.google.android.material.textfield.TextInputEditText;
@@ -68,6 +66,7 @@ public class SignUp extends Fragment {
                     editor.putString("user", new Gson().toJson(user));
                     editor.commit();
                     startActivity(new Intent(getActivity(), FeedActivity.class));
+                    getActivity().finish();
                 });
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -109,7 +108,7 @@ public class SignUp extends Fragment {
         firstNameField = getView().findViewById(R.id.firstNameField);
         lastNameField = getView().findViewById(R.id.lastNameField);
         emailField = getView().findViewById(R.id.emailField);
-        addressField = getView().findViewById(R.id.addressField);
+        addressField = getView().findViewById(R.id.emailField);
         passwordField = getView().findViewById(R.id.passwordField);
 
         registerButton = getView().findViewById(R.id.loginButton);

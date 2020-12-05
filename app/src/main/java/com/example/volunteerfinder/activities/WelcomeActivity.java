@@ -36,9 +36,13 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
-        String userString = sp.getString("user", "");
-        if (!userString.equals("")) {
+        if (!sp.getString("user", "").equals("")) {
             startActivity(new Intent(WelcomeActivity.this, FeedActivity.class));
+            finish();
+        }
+
+        if (!sp.getString("organization", "").equals("")) {
+            startActivity(new Intent(WelcomeActivity.this, OrganizationProfileActivity.class));
             finish();
         }
     }
