@@ -8,7 +8,7 @@ public interface IUserService {
 
     void save(UserRegisterRequest request, Consumer<User> userConsumer) throws Exception;
 
-    void login(UserLoginRequest request, Consumer<User> consumer) throws Exception;
+    void login(UserLoginRequest request, Consumer<User> consumer);
 
 
 }

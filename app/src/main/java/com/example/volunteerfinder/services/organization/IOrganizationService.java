@@ -10,5 +10,5 @@ public interface IOrganizationService {
 
     Organization save(RegisterOrganizationRequest regOrganizationRequest) throws Exception;
 
-    void login(UserLoginRequest request, Consumer<Organization> consumer) throws Exception;
+    void login(UserLoginRequest request, Consumer<Organization> consumer);
 }

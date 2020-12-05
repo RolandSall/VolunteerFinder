@@ -35,19 +35,22 @@ public class OrganizationService implements  IOrganizationService {
     }
 
     @Override
-    public void login(UserLoginRequest request, Consumer<Organization> consumer) throws Exception {
+    public void login(UserLoginRequest request, Consumer<Organization> consumer) {
         dbReference.orderByChild("email").equalTo(request.getEmail()).addValueEventListener(new ValueEventListener() {
 
             @SneakyThrows
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                OrganizationDAO organization = organizationMapper.getOrganizationDAOById(getOrganizationId(snapshot), getOrganizationDAO(snapshot));
-                if(isValidCredential(organization, request)){
-                    consumer.accept(buildOrganizationFromOrganizationDAO(organization));
-                }else {
+                if(!snapshot.exists()){
                     consumer.accept(null);
+                } else {
+                    OrganizationDAO organization = organizationMapper.getOrganizationDAOById(getOrganizationId(snapshot), getOrganizationDAO(snapshot));
+                    if(isValidCredential(organization, request)){
+                        consumer.accept(buildOrganizationFromOrganizationDAO(organization));
+                    }else {
+                        consumer.accept(null);
+                    }
                 }
-
             }
 
             @Override

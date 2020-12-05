@@ -57,19 +57,15 @@ public class Login extends Fragment {
 
     private void login() {
         if (validData()) {
-            try {
-                userService.login(buildLoginRequest(), user -> {
-                    if(user != null) {
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("user", new Gson().toJson(user));
-                    editor.commit();
-                    startActivity(new Intent(getActivity(), FeedActivity.class));
-                    getActivity().finish();
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            userService.login(buildLoginRequest(), user -> {
+                if(user != null) {
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("user", new Gson().toJson(user));
+                editor.commit();
+                startActivity(new Intent(getActivity(), FeedActivity.class));
+                getActivity().finish();
+                }
+            });
         }
     }
 
