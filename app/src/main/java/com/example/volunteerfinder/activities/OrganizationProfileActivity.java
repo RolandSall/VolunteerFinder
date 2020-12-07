@@ -20,6 +20,7 @@ import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.event.EventService;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class OrganizationProfileActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
 
     private RecyclerView eventRecyclerView;
-    private Button addEventButton;
+//    private Button addEventButton;
 
     private EventService eventService = new EventService();
     private SharedPreferences sp;
@@ -38,7 +39,8 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
 
     private Organization organization;
 
-    FloatingActionButton fab1, fab2;
+    FloatingActionButton fab1;
+    ExtendedFloatingActionButton fab2;
     View fabBGLayout;
     boolean isFABOpen = false;
 
@@ -68,7 +70,7 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         eventRecyclerView.setAdapter(eventAdapter);
         eventRecyclerView.addItemDecoration(new DividerItemDecoration(eventRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        addEventButton.setOnClickListener(e -> {
+        fab2.setOnClickListener(e -> {
             Intent intent = new Intent(OrganizationProfileActivity.this, NewEventActivity.class);
             intent.putExtra("organization", organization);
             startActivity(intent);
@@ -95,11 +97,10 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
 
     private void showFABMenu() {
         isFABOpen = true;
-        fabBGLayout.setVisibility(View.GONE);
-        fab1.animate().rotationBy(180);
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-        fab2.setVisibility(View.GONE);
+        fabBGLayout.setVisibility(View.VISIBLE);
+        fab1.animate().rotationBy(45);
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+        fab2.setVisibility(View.VISIBLE);
     }
 
     private void closeFABMenu() {
