@@ -92,6 +92,7 @@ public class EventService implements IEventService {
                 .capacity(eventsServiceResponse.getCapacity())
                 .description(eventsServiceResponse.getDescription())
                 .title(eventsServiceResponse.getTitle())
+                .participants(eventsServiceResponse.getParticipants())
                 .organization(eventsServiceResponse.getOrganization())
                 .image(eventsServiceResponse.getImage())
                 .build();
