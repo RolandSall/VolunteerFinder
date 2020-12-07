@@ -15,10 +15,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 
@@ -26,11 +24,10 @@
             android:id="@+id/singleEventTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:text="TextView"
-            android:textSize="100px"
-            android:layout_marginTop="25dp"/>
-
-
+            android:textColor="#000000"
+            android:textSize="100px" />
 
         <TextView
             android:id="@+id/Description"
@@ -59,7 +56,7 @@
                 android:id="@+id/openWebPageButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Organization Web"
+                android:text="Organization"
                 android:layout_weight="6"
                 android:layout_margin="10dp"
 
@@ -82,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Button" />
+            android:text="Volunteer" />
 
 
     </LinearLayout>
