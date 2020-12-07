@@ -60,7 +60,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
 
     private Organization organization;
 
-    private static final int CHOOSE_IMAGE_REQUEST = 1;
+    private static final int CHOOSE_IMAGE_REQUEST = 2;
     private Button uploadBtn;
     private Button chooseFileBtn;
     private Button save;
@@ -87,6 +87,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
 
     private TextView mShowSelectedDateText;
 
+    private ImageView Gallery;
     private Button chooseFile;
 
     @Override
@@ -102,6 +103,8 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
+
+        Gallery = findViewById(R.id.gallery);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
@@ -118,6 +121,14 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
                         materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
                     }
                 });
+
+        Gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
+        });
+
 
         materialDatePicker.addOnPositiveButtonClickListener(
                 new MaterialPickerOnPositiveButtonClickListener() {
@@ -147,12 +158,6 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
 //                uploadFile(uri -> event.setImage(uri));
 //            }
 //        });
-
-        chooseFileBtn.setOnClickListener(v -> openGallery());
-
-        save.setOnClickListener(v -> {
-            eventService.saveEvent(event);
-        });
     }
 
 
@@ -218,9 +223,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void openGallery() {
         // Navigate to gallery and restrict only image type to appear
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, CHOOSE_IMAGE_REQUEST);
     }
 
@@ -260,7 +263,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         super.onActivityResult(requestCode, resultCode, data);
         if (isImageValid(requestCode, resultCode, data)) {
             mImageUri = data.getData();
-            Picasso.get().load(mImageUri).into(imageView);
+            Picasso.get().load(mImageUri).into(Gallery);
         }
     }
 
