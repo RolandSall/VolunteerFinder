@@ -13,16 +13,7 @@ public class OrganizationMapper {
                 .name(organizationHashMap.get("name").toString())
                 .webPage(organizationHashMap.get("webPage").toString())
                 .organizationId(organizationHashMap.get("organizationId").toString())
-                /*.organizationId(organizationHashMap.get("address").toString())*/
-                .build();
-    }
-
-    public Organization getOrganizationById(String organizationId, HashMap organizationDAO) {
-        return new Organization().builder()
-
-
-
-
+                .organizationId(organizationHashMap.get("address").toString())
                 .build();
     }
 

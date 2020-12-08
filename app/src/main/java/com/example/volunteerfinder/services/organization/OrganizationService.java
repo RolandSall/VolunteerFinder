@@ -94,12 +94,6 @@ public class OrganizationService implements  IOrganizationService {
         return false;
     }
 
-
-    private String getHashedPassword(String password) throws Exception {
-        return hashingService.generateHash(password);
-    }
-
-
     private void hashPassword(OrganizationRegisterRequest request) throws Exception {
         request.setPassword(hashingService.generateHash(request.getPassword()));
     }
