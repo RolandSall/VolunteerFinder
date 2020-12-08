@@ -2,6 +2,7 @@ package com.example.volunteerfinder.services.event;
 
 
 import com.example.volunteerfinder.models.Organization;
+import com.example.volunteerfinder.models.User;
 
 import java.util.ArrayList;
 
@@ -28,5 +29,5 @@ public class UpdateEventRequest {
     private String eventDate;
     private String image;
     private int capacity;
-    private ArrayList<String> participants;
+    private ArrayList<User> participants;
 }

@@ -1,6 +1,8 @@
 package com.example.volunteerfinder.services.event;
 
+import com.example.volunteerfinder.models.User;
 import com.example.volunteerfinder.services.organization.OrganizationMapper;
+import com.example.volunteerfinder.services.user.UserServiceMapper;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.HashMap;
 public class EventServiceResponseMapper {
 
     private OrganizationMapper organizationMapper = new OrganizationMapper();
+    private UserServiceMapper userMapper = new UserServiceMapper();
 
     public ArrayList<EventsServiceResponse> getEventList(DataSnapshot snapshot) {
         ArrayList<EventsServiceResponse> eventsArrayList = new ArrayList<>();
@@ -32,7 +35,7 @@ public class EventServiceResponseMapper {
                 .title(eventHashMap.get("title").toString())
                 .location(eventHashMap.get("location").toString())
                 .postedDate(eventHashMap.get("postedDate").toString())
-                .participants((ArrayList<String>) eventHashMap.get("participants"))
+                .participants(userMapper.getUsers((ArrayList<HashMap>)eventHashMap.get("participants")))
                 .capacity(Integer.parseInt(eventHashMap.get("capacity").toString()))
                 .image(eventHashMap.get("image").toString())
                 .organization(organizationMapper.getOrganization((HashMap) eventHashMap.get("organization")))

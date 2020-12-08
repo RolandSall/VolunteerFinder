@@ -2,6 +2,7 @@ package com.example.volunteerfinder.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,8 +21,9 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
-        // checkUser();
+        checkUser();
 
         volunteerButton = findViewById(R.id.volunteerButton);
         ngoButton = findViewById(R.id.ngoButton);
@@ -41,7 +43,7 @@ public class WelcomeActivity extends AppCompatActivity {
             finish();
         }
 
-        if (!sp.getString("organization", "").equals("")) {
+        else if (!sp.getString("organization", "").equals("")) {
             startActivity(new Intent(WelcomeActivity.this, OrganizationProfileActivity.class));
             finish();
         }

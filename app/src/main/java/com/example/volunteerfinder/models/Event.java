@@ -27,5 +27,5 @@ public class Event implements Serializable {
     private String image;
     private int capacity;
     private Organization organization;
-    private ArrayList<String> participants;
+    private ArrayList<User> participants;
 }
