@@ -23,29 +23,35 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
-        checkUser();
-
         volunteerButton = findViewById(R.id.volunteerButton);
         ngoButton = findViewById(R.id.ngoButton);
 
         volunteerButton.setOnClickListener(event -> {
-            startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+            if(!checkUser())
+                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         });
 
         ngoButton.setOnClickListener(event -> {
-            startActivity(new Intent(WelcomeActivity.this, LoginOrganizationActivity.class));
+            if(!checkOrganization())
+                startActivity(new Intent(WelcomeActivity.this, LoginOrganizationActivity.class));
         });
     }
 
-    private void checkUser() {
-        if (false && !sp.getString("user", "").equals("")) {
+    private boolean checkUser() {
+        if (!sp.getString("user", "").equals("")) {
             startActivity(new Intent(WelcomeActivity.this, FeedActivity.class));
             finish();
+            return true;
         }
+        return false;
+    }
 
-        else if (!sp.getString("organization", "").equals("")) {
+    private boolean checkOrganization() {
+        if (!sp.getString("organization", "").equals("")) {
             startActivity(new Intent(WelcomeActivity.this, OrganizationProfileActivity.class));
             finish();
+            return true;
         }
+        return false;
     }
 }
