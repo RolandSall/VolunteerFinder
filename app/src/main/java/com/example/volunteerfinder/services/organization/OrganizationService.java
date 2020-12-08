@@ -95,18 +95,6 @@ public class OrganizationService implements  IOrganizationService {
     }
 
 
-    private OrganizationDAO buildOrganizationDAOFromRequest(UUID uuid, OrganizationRegisterRequest organizationRequest) throws Exception {
-        return new OrganizationDAO().builder()
-                .address(organizationRequest.getAddress())
-                .name(organizationRequest.getName())
-                .webPage(organizationRequest.getWebPage())
-                .organizationId(uuid.toString())
-                .password(getHashedPassword(organizationRequest.getPassword()))
-                .email(organizationRequest.getEmail())
-                .build();
-    }
-
-
     private String getHashedPassword(String password) throws Exception {
         return hashingService.generateHash(password);
     }
