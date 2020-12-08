@@ -32,11 +32,12 @@ public class EventActivity extends AppCompatActivity {
         description = findViewById(R.id.Description);
         capacity = findViewById(R.id.Capacity);
 
-
+        // TODO: Make the event in the UI then added it here
 
         capacity.setText("Volunteer Needed: " + computeCapacity(event));
         eventTitle.setText(event.getTitle());
         description.setText(event.getDescription());
+
 
         organizationWebPageButton = findViewById(R.id.openWebPageButton);
         googleMapsButton = findViewById(R.id.googleMapsButton);

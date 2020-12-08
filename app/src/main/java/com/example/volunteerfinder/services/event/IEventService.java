@@ -15,4 +15,6 @@ public interface IEventService {
     void saveEvent(Event event);
 
     void deleteEvent(String eventId);
+
+    void updateEventById(UpdateEventRequest request, Consumer<Event> eventConsumer);
 }

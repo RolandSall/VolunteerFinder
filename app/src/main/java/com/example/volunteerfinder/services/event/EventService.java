@@ -37,6 +37,7 @@ public class EventService implements IEventService {
         });
     }
 
+
     @Override
     public void getOrganizationEvents(Organization organization, Consumer<List<Event>> callback) {
         dbReference.addValueEventListener(new ValueEventListener() {
@@ -66,11 +67,19 @@ public class EventService implements IEventService {
     }
 
 
+
+
     @Override
     public void deleteEvent(String eventId) {
         dbReference.child(eventId).removeValue();
     }
 
+
+    @Override
+    public void updateEventById(UpdateEventRequest request, Consumer<Event> eventConsumer) {
+        dbReference.child(request.getEventId()).setValue(request).addOnCompleteListener(task ->
+                eventConsumer.accept(getSingleEventFromUpdate(request)));
+    }
 
     private List<Event> buildListOfEvents(List<EventsServiceResponse> eventsServiceResponses) {
         while (eventsServiceResponses.equals(null)){
@@ -82,6 +91,23 @@ public class EventService implements IEventService {
         }
         return responseList;
     }
+
+
+    private Event getSingleEventFromUpdate(UpdateEventRequest updateEventRequest) {
+        return new Event().builder()
+                .eventId(updateEventRequest.getEventId())
+                .location(updateEventRequest.getLocation())
+                .postedDate(updateEventRequest.getPostedDate())
+                .eventDate(updateEventRequest.getEventDate())
+                .capacity(updateEventRequest.getCapacity())
+                .description(updateEventRequest.getDescription())
+                .title(updateEventRequest.getTitle())
+                .participants(updateEventRequest.getParticipants())
+                .organization(updateEventRequest.getOrganization())
+                .image(updateEventRequest.getImage())
+                .build();
+    }
+
 
     private Event getSingleEvent(EventsServiceResponse eventsServiceResponse) {
         return new Event().builder()
