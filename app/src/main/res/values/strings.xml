@@ -8,8 +8,6 @@
     <string name="orgname">Organization</string>
     <string name="password">Password</string>
     <string name="loginIcon">loginIcon</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loginI">&amp;#xf2f6</string>
     <string name="FirstName">First Name</string>
     <string name="LastName">Last Name</string>
@@ -20,5 +18,9 @@
     <string name="organizationSignUp">Sign up as an Organization</string>
     <string name="back">Go Back</string>
     <string name="logo">Logo</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="capacity">Capacity</string>
     <string name="webpage">Website</string>
+
 </resources>
