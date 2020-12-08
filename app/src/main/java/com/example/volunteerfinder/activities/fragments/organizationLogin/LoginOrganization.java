@@ -67,6 +67,9 @@ public class LoginOrganization extends Fragment {
                     Intent intent = new Intent(getActivity(), OrganizationProfileActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                } else{
+                    emailLayout.setError("Might Be a Wrong Email");
+                    passwordLayout.setError("Might Be a Wrong Password");
                 }
             });
         }

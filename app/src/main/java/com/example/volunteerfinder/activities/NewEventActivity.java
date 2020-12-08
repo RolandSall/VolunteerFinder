@@ -99,10 +99,14 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void createEvent(){
-        uploadFile(imageUri -> {
-            eventService.saveEvent(buildEvent(imageUri));
-            finish();
-        });
+        if(IsInvalidDownload()){
+            Toast.makeText(NewEventActivity.this, "Event Is Being Generated", Toast.LENGTH_LONG).show();
+        }else {
+            uploadFile(imageUri -> {
+                eventService.saveEvent(buildEvent(imageUri));
+                finish();
+            });
+        }
     }
 
     private void initMap(Bundle savedInstanceState) {
@@ -204,7 +208,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
                     //progressBar.setProgress(0);
                 }, 500);
                 // Toast when image download is finished
-                Toast.makeText(NewEventActivity.this, "Image Uploaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(NewEventActivity.this, "Event Created", Toast.LENGTH_LONG).show();
 
                 fileReference.getDownloadUrl().addOnSuccessListener(uri ->consumer.accept(uri.toString()));
 

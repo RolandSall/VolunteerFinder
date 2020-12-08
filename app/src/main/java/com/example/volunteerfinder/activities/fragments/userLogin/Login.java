@@ -13,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
+import com.example.volunteerfinder.activities.EventActivity;
 import com.example.volunteerfinder.activities.FeedActivity;
+import com.example.volunteerfinder.activities.LoginActivity;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserLoginRequest;
 import com.example.volunteerfinder.services.user.UserService;
@@ -68,6 +71,9 @@ public class Login extends Fragment {
                     Intent intent = new Intent(getActivity(), FeedActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                } else {
+                    emailLayout.setError("Might Be a Wrong Email");
+                    passwordLayout.setError("Might Be a Wrong Password");
                 }
             });
         }
