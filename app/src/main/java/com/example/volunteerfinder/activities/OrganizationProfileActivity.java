@@ -1,5 +1,6 @@
 package com.example.volunteerfinder.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -7,15 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.adapters.EventAdapter;
+import com.example.volunteerfinder.adapters.OrganizationEventAdapter;
 import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.models.User;
@@ -26,16 +30,15 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class OrganizationProfileActivity extends AppCompatActivity implements EventAdapter.OnCardListener {
+public class OrganizationProfileActivity extends AppCompatActivity implements OrganizationEventAdapter.OnCardListener {
 
     private RecyclerView eventRecyclerView;
-//    private Button addEventButton;
 
     private EventService eventService = new EventService();
     private SharedPreferences sp;
 
     private ArrayList<Event> eventList;
-    private EventAdapter eventAdapter;
+    private OrganizationEventAdapter eventAdapter;
 
     private Organization organization;
 
@@ -43,6 +46,8 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
     ExtendedFloatingActionButton fab2;
     View fabBGLayout;
     boolean isFABOpen = false;
+
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);;
 
         eventService.getOrganizationEvents(organization, list-> eventAdapter.update(new ArrayList<>(list)));
-        eventAdapter = new EventAdapter(this, eventList, this);
+        eventAdapter = new OrganizationEventAdapter(this, eventList, this, i -> deleteEvent(i));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         eventRecyclerView.setLayoutManager(layoutManager);
@@ -76,23 +81,15 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
             startActivity(intent);
         });
 
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isFABOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-            }
-        });
-
-        fabBGLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fab1.setOnClickListener(view -> {
+            if (!isFABOpen) {
+                showFABMenu();
+            } else {
                 closeFABMenu();
             }
         });
+
+        fabBGLayout.setOnClickListener(view -> closeFABMenu());
     }
 
     private void showFABMenu() {
@@ -117,5 +114,20 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         Intent intent = new Intent(this, EventActivity.class);
         intent.putExtra("event", event);
         startActivity(intent);
+    }
+
+    private void deleteEvent(Integer position) {
+        Event event = eventList.get(position);
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure that you want to delete this event?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    eventService.deleteEvent(event.getEventId());
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, id) -> dialog.cancel());
+        AlertDialog alert = builder.create();
+        alert.setTitle("Delete Event");
+        alert.show();
     }
 }
