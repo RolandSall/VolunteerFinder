@@ -3,14 +3,13 @@ package com.example.volunteerfinder.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,32 +27,31 @@ import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.models.Event;
 import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.services.event.EventService;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.text.BreakIterator;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class NewEventActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -61,22 +59,14 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
     private Organization organization;
 
     private static final int CHOOSE_IMAGE_REQUEST = 2;
-    private Button uploadBtn;
-    private Button chooseFileBtn;
-    private Button save;
     private ProgressBar progressBar;
-    private ImageView imageView;
-
 
     private StorageReference mStorageRef;
     private StorageTask uploadTask;
     private DatabaseReference dbReference;
     private Uri mImageUri;
 
-    private Event event;
-
     private EventService eventService = new EventService();
-
 
     private MapView mapView;
     private GoogleMap gmap;
@@ -84,11 +74,14 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
     private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyBUFJoVjD211sA6zlGPh97AxlN0s8biTuQ";
 
     private ImageButton mPickDateButton;
-
     private TextView mShowSelectedDateText;
 
-    private ImageView Gallery;
-    private Button chooseFile;
+    private ImageView eventImage;
+    private TextView eventTitle;
+    private TextView eventCapacity;
+    private TextView eventDescription;
+    private Button createEventButton;
+    private Address eventLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,68 +89,49 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         setContentView(R.layout.activity_add_new_event);
         initSetup();
 
-        mPickDateButton = findViewById(R.id.imageButton);
-        mShowSelectedDateText = findViewById(R.id.datesSelected);
+        initMap(savedInstanceState);
+        initDatePicker();
+
+        eventImage.setOnClickListener(view -> openGallery());
+
+        createEventButton.setOnClickListener(e -> createEvent());
+
+    }
+
+    private void createEvent(){
+        uploadFile(imageUri -> {
+            eventService.saveEvent(buildEvent(imageUri));
+            finish();
+        });
+    }
+
+    private void initMap(Bundle savedInstanceState) {
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-
-        Gallery = findViewById(R.id.gallery);
-        mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+    }
+
+    private void initDatePicker() {
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
 
-        chooseFile = findViewById(R.id.chooseFileBtn);
         materialDateBuilder.setTitleText("SELECT A DATE");
         final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
 
-        mPickDateButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
-                    }
-                });
-
-        Gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGallery();
-            }
-        });
-
+        mPickDateButton.setOnClickListener(v -> materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER"));
 
         materialDatePicker.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onPositiveButtonClick(Object selection) {
+                selection -> {
+                    mShowSelectedDateText.setVisibility(View.VISIBLE);
+                    mShowSelectedDateText.setText(materialDatePicker.getHeaderText());
 
-                        // if the user clicks on the positive
-                        // button that is ok button update the
-                        // selected date
-                        mShowSelectedDateText.setVisibility(View.VISIBLE);
-                        mShowSelectedDateText.setText(materialDatePicker.getHeaderText());
-
-                        // in the above statement, getHeaderText
-                        // will return selected date preview from the
-                        // dial
-
-
-                        showTimePicker();
-                        showTimePicker2();
-                    }
+                    showTimePicker();
+                    showTimePicker2();
                 });
-//        uploadBtn.setOnClickListener(v -> {
-//            if (IsInvalidDownload()) {
-//                Toast.makeText(NewEventActivity.this, "Image Is Already Being Downloaded", Toast.LENGTH_LONG).show();
-//            } else {
-//                uploadFile(uri -> event.setImage(uri));
-//            }
-//        });
     }
 
 
@@ -166,13 +140,10 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(NewEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                mShowSelectedDateText.setText(mShowSelectedDateText.getText() + " " + i + ":" + i1);
-            }
-
-        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker = new TimePickerDialog(NewEventActivity.this,
+                (timePicker, i, i1) -> mShowSelectedDateText
+                        .setText(mShowSelectedDateText.getText() + " " + i + ":" + i1 + " -"),
+                hour, minute, true);//Yes 24 hour time
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
     }
@@ -182,41 +153,33 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(NewEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                mShowSelectedDateText.setText(mShowSelectedDateText.getText() + " " + i + ":" + i1);
-            }
-
-        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker = new TimePickerDialog(NewEventActivity.this,
+                (timePicker, i, i1) -> mShowSelectedDateText
+                        .setText(mShowSelectedDateText.getText() + " " + i + ":" + i1),
+                hour, minute, true);//Yes 24 hour time
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
     }
+
     private void initSetup() {
 
+        organization = (Organization) getIntent().getSerializableExtra("organization");
 
-//        organization = (Organization) getIntent().getSerializableExtra("organization");
-//
-//        uploadBtn = findViewById(R.id.uploadBtn);
-//        chooseFileBtn = findViewById(R.id.chooseFileBtn);
-//        progressBar = findViewById(R.id.progressBar);
-//        imageView = findViewById(R.id.imageView);
-//        save = findViewById(R.id.saveEventBtn);
-//
-//        event = Event.builder()
-//                .capacity(10)
-//                .organization(organization)
-//                .description("Latest Version of Dummy Events")
-//                .location("Amchit")
-//                .title("Together-Stronger")
-//                .eventDate("12-25-2020")
-//                .postedDate("11-30-2020")
-//                .build();
-//
-//        mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-//        dbReference = FirebaseDatabase.getInstance().getReference().child("Uploads");
+        eventImage = findViewById(R.id.newEventImage);
+        eventTitle = findViewById(R.id.newEventTitle);
+        eventCapacity = findViewById(R.id.newEventCapacity);
+        eventDescription = findViewById(R.id.newEventDescription);
 
+        createEventButton = findViewById(R.id.createEventButton);
 
+        progressBar = findViewById(R.id.progressBar);
+        mapView = findViewById(R.id.mapView);
+
+        mPickDateButton = findViewById(R.id.dateTimePicker);
+        mShowSelectedDateText = findViewById(R.id.datesSelected);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("Events");
+        dbReference = FirebaseDatabase.getInstance().getReference().child("Uploads");
 
     }
 
@@ -237,7 +200,9 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
             uploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(taskSnapshot -> {
                 // Create a handler for incrementing a visible progress bar
                 Handler handler = new Handler();
-                handler.postDelayed(() -> progressBar.setProgress(0), 500);
+                handler.postDelayed(() -> {
+                    //progressBar.setProgress(0);
+                }, 500);
                 // Toast when image download is finished
                 Toast.makeText(NewEventActivity.this, "Image Uploaded", Toast.LENGTH_LONG).show();
 
@@ -248,7 +213,7 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
 
                     .addOnProgressListener(snapshot -> {
                         double progress = generateProgressForImageDownload(snapshot);
-                        progressBar.setProgress((int) progress);
+                        //progressBar.setProgress((int) progress);
                     });
 
         } else {
@@ -262,8 +227,9 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         // if image valid -> show data in ImageView
         super.onActivityResult(requestCode, resultCode, data);
         if (isImageValid(requestCode, resultCode, data)) {
+            assert data != null;
             mImageUri = data.getData();
-            Picasso.get().load(mImageUri).into(Gallery);
+            Picasso.get().load(mImageUri).into(eventImage);
         }
     }
 
@@ -287,19 +253,20 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
         return 100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount();
     }
 
-    private Event buildEvent() {
-        // dummy witch chosen Image
-        System.out.println("OBJECT: " + organization);
-        return event.builder()
-                .capacity(10)
+    private Event buildEvent(String imageUri) {
+        return  Event.builder()
+                .capacity(Integer.parseInt(eventCapacity.getText().toString()))
                 .organization(organization)
-                .description("Latest Version of Dummy Events")
-                .location("Amchit")
-                .title("Together-Stronger")
-                .eventDate("12-25-2020")
-                .postedDate("11-30-2020")
+                .description(eventDescription.getText().toString())
+                .location(eventLocation.getAddressLine(0))
+                .title(eventTitle.getText().toString())
+                .eventDate(mShowSelectedDateText.getText().toString())
+                .postedDate(new SimpleDateFormat("dd-MM-yyyy").format(new Date(System.currentTimeMillis())))
+                .image(imageUri)
                 .build();
     }
+
+    // Map
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -349,9 +316,33 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        gmap.setMinZoomPreference(12);
         LatLng ny = new LatLng(40.7143528, -74.0059731);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        gmap.addMarker(new MarkerOptions().position(ny).draggable(true).title("Event Location"));
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        gmap.getUiSettings().setZoomControlsEnabled(true);
+
+        gmap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                LatLng latLng = marker.getPosition();
+                Geocoder geocoder = new Geocoder(NewEventActivity.this, Locale.getDefault());
+                try {
+                    eventLocation = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1).get(0);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

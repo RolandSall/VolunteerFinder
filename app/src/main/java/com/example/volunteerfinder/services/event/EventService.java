@@ -44,7 +44,7 @@ public class EventService implements IEventService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Stream<Event> eventsStream = buildListOfEvents(new EventServiceResponseMapper().getEventList(snapshot)).stream();
-                callback.accept(eventsStream.filter(event -> event.getOrganization().equals(organization)).collect(Collectors.toList()));
+                callback.accept(eventsStream.filter(event -> event.getOrganization().getOrganizationId().equals(organization.getOrganizationId())).collect(Collectors.toList()));
             }
 
             @Override
@@ -65,9 +65,6 @@ public class EventService implements IEventService {
         // Save event
         dbReference.child(uuid.toString()).setValue(event);
     }
-
-
-
 
     @Override
     public void deleteEvent(String eventId) {

@@ -38,7 +38,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
-        if (!sp.getString("user", "").equals("")) {
+        if (false && !sp.getString("user", "").equals("")) {
             startActivity(new Intent(WelcomeActivity.this, FeedActivity.class));
             finish();
         }

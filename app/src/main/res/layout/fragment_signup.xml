@@ -60,7 +60,7 @@
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/firstNameField"
+                        android:id="@+id/newEventCapacity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -112,7 +112,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailField"
+                    android:id="@+id/newEventDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>

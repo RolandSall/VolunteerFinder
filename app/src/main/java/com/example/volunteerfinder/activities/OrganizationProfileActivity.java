@@ -61,7 +61,7 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Ev
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         organization = new Gson().fromJson(sp.getString("organization", ""), Organization.class);;
 
-        eventService.getEvents(list-> eventAdapter.update(new ArrayList<>(list)));
+        eventService.getOrganizationEvents(organization, list-> eventAdapter.update(new ArrayList<>(list)));
         eventAdapter = new EventAdapter(this, eventList, this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

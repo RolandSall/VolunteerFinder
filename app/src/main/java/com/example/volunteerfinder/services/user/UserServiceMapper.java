@@ -19,7 +19,9 @@ public class UserServiceMapper {
     }
 
     public ArrayList<User> getUsers(ArrayList<HashMap> users) {
-        return new ArrayList<>(users.stream().map(this::getUserModel).collect(Collectors.toList()));
+        if(users != null)
+            return new ArrayList<>(users.stream().map(this::getUserModel).collect(Collectors.toList()));
+        return new ArrayList<>();
     }
 
     private User getUserModel(HashMap userMap) {

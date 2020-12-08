@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
-import com.example.volunteerfinder.activities.FeedActivity;
 import com.example.volunteerfinder.activities.OrganizationProfileActivity;
 import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
@@ -93,7 +92,7 @@ public class LoginOrganization extends Fragment {
     }
 
     private void initSetup() {
-        emailField = getView().findViewById(R.id.emailField);
+        emailField = getView().findViewById(R.id.newEventDescription);
         passwordField = getView().findViewById(R.id.passwordField);
         emailLayout = getView().findViewById(R.id.emailLayout);
         passwordLayout = getView().findViewById(R.id.passwordLayout);

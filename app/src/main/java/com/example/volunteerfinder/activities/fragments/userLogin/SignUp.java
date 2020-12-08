@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.FeedActivity;
-import com.example.volunteerfinder.activities.OrganizationProfileActivity;
 import com.example.volunteerfinder.services.user.IUserService;
 import com.example.volunteerfinder.services.user.UserRegisterRequest;
 import com.example.volunteerfinder.services.user.UserService;
@@ -119,9 +118,9 @@ public class SignUp extends Fragment {
     }
 
     private void initSetup() {
-        firstNameField = getView().findViewById(R.id.firstNameField);
+        firstNameField = getView().findViewById(R.id.newEventCapacity);
         lastNameField = getView().findViewById(R.id.lastNameField);
-        emailField = getView().findViewById(R.id.emailField);
+        emailField = getView().findViewById(R.id.newEventDescription);
         addressField = getView().findViewById(R.id.addressField);
         passwordField = getView().findViewById(R.id.passwordField);
         firstNameLayout = getView().findViewById(R.id.firstNameLayout);

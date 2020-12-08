@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.volunteerfinder.R;
 import com.example.volunteerfinder.activities.OrganizationProfileActivity;
-import com.example.volunteerfinder.models.Organization;
 import com.example.volunteerfinder.services.organization.IOrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationService;
 import com.example.volunteerfinder.services.organization.OrganizationRegisterRequest;
@@ -118,7 +117,7 @@ public class SignUpOrganization extends Fragment {
     private void initSetup() {
         organizationNameField = getView().findViewById(R.id.nameField);
         webPageField = getView().findViewById(R.id.webPageField);
-        emailField = getView().findViewById(R.id.emailField);
+        emailField = getView().findViewById(R.id.newEventDescription);
         addressField = getView().findViewById(R.id.addressField);
         passwordField = getView().findViewById(R.id.passwordField);
         organizationNameLayout = getView().findViewById(R.id.organizationWebpage);
