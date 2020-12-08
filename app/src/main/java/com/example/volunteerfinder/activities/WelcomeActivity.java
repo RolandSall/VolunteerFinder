@@ -23,6 +23,10 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
+        // TODO: Uncomment the line below to enable auto-login
+        // If left commented, the tester will get the choice to login as ngo and volunteer at start
+        // checkBoth();
+
         volunteerButton = findViewById(R.id.volunteerButton);
         ngoButton = findViewById(R.id.ngoButton);
 
@@ -53,5 +57,16 @@ public class WelcomeActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void checkBoth() {
+        if (!sp.getString("user", "").equals("")) {
+            startActivity(new Intent(WelcomeActivity.this, FeedActivity.class));
+            finish();
+        }
+        else if (!sp.getString("organization", "").equals("")) {
+            startActivity(new Intent(WelcomeActivity.this, OrganizationProfileActivity.class));
+            finish();
+        }
     }
 }
