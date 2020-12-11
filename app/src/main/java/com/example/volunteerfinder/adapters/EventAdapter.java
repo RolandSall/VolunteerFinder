@@ -21,9 +21,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardViewHolder> {
+
     Context context;
     ArrayList<Event> list;
     private OnCardListener onCardListener;
+
     public class EventCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CardView card;
         public TextView eventName;
@@ -48,6 +50,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventCardVie
             onCardListener.onCardClick(getAdapterPosition());
         }
     }
+
+
     public EventAdapter(Context context, ArrayList<Event> list, OnCardListener onCardListener) {
         this.context = context;
         this.list = list;

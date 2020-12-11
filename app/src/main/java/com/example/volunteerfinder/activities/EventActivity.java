@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class EventActivity extends AppCompatActivity {
 
+    private MediaPlayer mediaPlayer;
     private Event event;
     private TextView eventTitle;
     private TextView description;
@@ -46,6 +48,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void initSetup(){
+        mediaPlayer= MediaPlayer.create(this,R.raw.achievementunlocked);
         sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         event = (Event)getIntent().getSerializableExtra("event");
         user = new Gson().fromJson(sp.getString("user", ""), User.class);
@@ -84,6 +87,7 @@ public class EventActivity extends AppCompatActivity {
         }
 
         volunteerButton.setOnClickListener(e -> {
+            mediaPlayer.start();
             ArrayList<User> participants = event.getParticipants();
             if(participants == null) participants = new ArrayList<>();
             participants.add(user);
