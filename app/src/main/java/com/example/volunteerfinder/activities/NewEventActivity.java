@@ -133,35 +133,25 @@ public class NewEventActivity extends AppCompatActivity implements OnMapReadyCal
                     mShowSelectedDateText.setVisibility(View.VISIBLE);
                     mShowSelectedDateText.setText(materialDatePicker.getHeaderText());
 
-                    showTimePicker();
-                    showTimePicker2();
+                    showTimePicker("End Time");
+                    showTimePicker("Start Time");
+
                 });
     }
 
 
-    private void showTimePicker() {
+    private void showTimePicker(String time) {
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker;
         mTimePicker = new TimePickerDialog(NewEventActivity.this,
-                (timePicker, i, i1) -> mShowSelectedDateText
-                        .setText(mShowSelectedDateText.getText() + " " + i + ":" + i1 + " -"),
-                hour, minute, true);//Yes 24 hour time
-        mTimePicker.setTitle("Select Time");
-        mTimePicker.show();
-    }
-
-    private void showTimePicker2() {
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
-        TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(NewEventActivity.this,
-                (timePicker, i, i1) -> mShowSelectedDateText
-                        .setText(mShowSelectedDateText.getText() + " " + i + ":" + i1),
-                hour, minute, true);//Yes 24 hour time
-        mTimePicker.setTitle("Select Time");
+                (timePicker, i, i1) ->
+                        mShowSelectedDateText
+                        .setText(mShowSelectedDateText.getText() + " - " + " " + i + ":" + i1),
+                hour, minute, true
+        );//Yes 24 hour time
+        mTimePicker.setTitle(time);
         mTimePicker.show();
     }
 

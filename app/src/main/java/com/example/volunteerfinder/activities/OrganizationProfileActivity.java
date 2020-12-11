@@ -7,11 +7,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -39,8 +43,12 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Or
 
     private ArrayList<Event> eventList;
     private OrganizationEventAdapter eventAdapter;
-
     private Organization organization;
+
+
+    private ProgressDialog TempDialog;
+    private CountDownTimer countDownTimer;
+    private int counter;
 
     FloatingActionButton fab1;
     ExtendedFloatingActionButton fab2;
@@ -54,6 +62,20 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Or
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_profile);
         initSetup();
+
+        TempDialog.show();
+        countDownTimer = new CountDownTimer(1500,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                TempDialog.setMessage("Wait a Moment....");
+            }
+
+            @Override
+            public void onFinish() {
+                TempDialog.dismiss();
+            }
+        }.start();
+
     }
 
     private void initSetup() {
@@ -68,6 +90,13 @@ public class OrganizationProfileActivity extends AppCompatActivity implements Or
 
         eventService.getOrganizationEvents(organization, list-> eventAdapter.update(new ArrayList<>(list)));
         eventAdapter = new OrganizationEventAdapter(this, eventList, this, i -> deleteEvent(i));
+
+        TempDialog = new ProgressDialog(OrganizationProfileActivity.this);
+        TempDialog.setMessage("Wait a Moment....");
+        TempDialog.setCancelable(false);
+        TempDialog.setProgress(counter);
+        TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         eventRecyclerView.setLayoutManager(layoutManager);
