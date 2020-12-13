@@ -1,26 +1,20 @@
-package com.example.volunteerfinder.model;
-
-
-import java.util.UUID;
+package com.example.volunteerfinder.services.organization;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @ToString
-public class User {
-    private String userId;
-    private String firstName;
-    private String lastName;
-    private String address;
+@Builder
+public class OrganizationLoginRequest {
     private String email;
     private String password;
 }

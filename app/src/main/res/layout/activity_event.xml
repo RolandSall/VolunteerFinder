@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.EventActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/eventImageView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+
+            <TextView
+                android:id="@+id/eventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="100px" />
+
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:text="TextView"
+                android:textColor="#1B1B1B"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/eventCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:text="TextView" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/eventVolunteerButton">
+
+
+        <Button
+            android:id="@+id/openWebPageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="6"
+            android:text="Organization"
+
+            />
+
+        <Button
+            android:id="@+id/googleMapsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="6"
+            android:text="Location" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/eventVolunteerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Volunteer"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        tools:layout_editor_absoluteX="50dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

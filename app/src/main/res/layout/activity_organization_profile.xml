@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.FeedActivity">
+
+
+<!--    <Button-->
+<!--        android:id="@+id/addEventButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Add Event" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/eventRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="155dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:id="@+id/fabBGLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransBg"
+        android:visibility="gone"/>
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/standard_55"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_23"
+        android:contentDescription="@string/organization"
+        android:text="Add event"
+        android:visibility="invisible"
+       />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_23"
+        android:contentDescription="@string/organization"
+        app:srcCompat="@drawable/baseline_add_icon"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

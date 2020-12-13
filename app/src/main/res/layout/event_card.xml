@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="false"
+    android:layout_margin="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape"
+        android:backgroundTint="#FFFFFF"
+        android:orientation="vertical"
+        android:padding="0px"
+        >
+
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="wrap_content"
+            android:layout_height="190dp"
+            android:paddingBottom="10dp"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/eventName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Name"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+            </TableRow>
+            <View style="@style/Divider"/>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/eventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="31 December 2021"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/eventOrganization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chartiy XY"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,6 +1,8 @@
-package com.example.volunteerfinder.Services.User;
+package com.example.volunteerfinder.models;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +17,10 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class UserServiceResponse {
-    private String userId;
-    private String firstName;
-    private String lastName;
+public class Organization implements Serializable {
+    private String organizationId;
+    private String name;
+    private String webPage;
     private String address;
     private String email;
 }
