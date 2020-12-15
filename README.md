@@ -2,6 +2,9 @@
 
 The only requirement that you might need to build this application is to install Lombok Plugin to avoid seeing error before runtime.
 
+# Firebase
+
+The application uses a Real-Time database using Firebase
 
 Project Description:
 
