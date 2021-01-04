@@ -6,7 +6,11 @@ The only requirement that you might need to build this application is to install
 
 The application uses a Real-Time database using Firebase
 
-Project Description:
+# Project Description:
 
 - This mobile applicaton main goal is to make volunteers scroll esaily through charity events feeds and participate to help the ones in need. 
 - Such events are organized by any verified charity organization that specifies the event criteria.
+
+# Demo Link
+To be further modified later on
+https://www.loom.com/share/578071de99c54add967f3cd1951bbe52
